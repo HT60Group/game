@@ -1,8 +1,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "cocos-ext.h"
-#include "ui/CocosGUI.h"
+#include "E:\StarCC\proj.win32\MusicSetting.h"
+#include "E:\StarCC\proj.win32\InputName.h"
 USING_NS_CC;
+
 Scene* HelloWorld::createScene()
 {
     return HelloWorld::create();
@@ -18,25 +19,33 @@ static void problemLoading(const char* filename)
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Scene::init() )
-    {
-        return false;
-    }
+	//////////////////////////////
+	// 1. super init first
+	if (!Scene::init())
+	{
+		return false;
+	}
+
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("HtStarCOpen_1.ExportJson");
 	UI->setPosition(Point(0, 0));
 	this->addChild(UI);
 
-	
-    return true;
+	// button 
+	Button* START = (Button*)Helper::seekWidgetByName(UI, "START");
+	START->setTouchEnabled(true);
+	START->addTouchEventListener(CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    
+	Button* Setting = (Button*)Helper::seekWidgetByName(UI, "Setting");
+	Setting->setTouchEnabled(true);
+	Setting->addTouchEventListener(CC_CALLBACK_1(HelloWorld::buttonTurnToSetting, this));
+	return true;
 }
-
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
+	auto scene = InputName::createScene();
+    Director::getInstance()->replaceScene(scene);
 
     #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
@@ -49,3 +58,21 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 
 }
+void HelloWorld::buttonTurnToSetting(Ref* pSender)
+{
+	//Close the cocos2d-x game scene and quit the application
+	auto scene = MusicSetting::createScene();
+	Director::getInstance()->replaceScene(scene);
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+	exit(0);
+#endif
+
+	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
+
+	//EventCustom customEndEvent("game_scene_close_event");
+	//_eventDispatcher->dispatchEvent(&customEndEvent);
+
+
+}
+
