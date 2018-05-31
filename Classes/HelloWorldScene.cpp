@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "E:\StarCC\proj.win32\MusicSetting.h"
-#include "E:\StarCC\proj.win32\InputName.h"
+#include "Scene/MusicSetting.h"
+#include "Scene/InputName.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()

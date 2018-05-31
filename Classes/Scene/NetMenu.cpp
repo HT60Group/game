@@ -21,7 +21,7 @@ bool NetMenu::init() {
 	Button* NetFight = (Button*)Helper::seekWidgetByName(UI, "NetFight");
 	NetFight->setTouchEnabled(true);
 	NetFight->addTouchEventListener(CC_CALLBACK_1(NetMenu::buttonTurnToNetFight, this));
-	
+
 	//buttonLANFight
 	Button* LANFight = (Button*)Helper::seekWidgetByName(UI, "LANFight");
 	LANFight->setTouchEnabled(true);

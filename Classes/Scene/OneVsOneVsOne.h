@@ -1,4 +1,3 @@
-
 #ifndef _OneVsOneVsOne_H_
 #define _OneVsOneVsOne_H_
 
