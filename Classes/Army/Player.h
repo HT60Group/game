@@ -12,14 +12,14 @@ public:
 	virtual bool init();
 	void run();
 protected:
-	int movingspeed;
-	int attackdistance;
+	int MovingSpeed;
+	int AttackDistance;
 	int DPS;
-	int minecost;
-	int electcost;
-	int viewdistance;
-	void specialeffect();
-	int timecost;
-	bool belong();
+	int MineCost;
+	int ElectCost;
+	int ViewDistance;
+	void SpecialEffect();
+	int TimeCost;
+	bool Belong();
 };
 #endif
