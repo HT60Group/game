@@ -2,14 +2,17 @@
 #define _Base_H_
 
 #include "Building.h"
-
-class Base :public Building
+#include "Army/Scv.h"
+class Base:public Building
 {
 public :
 	CREATE_FUNC(Base);
 	virtual bool init();
 
+	virtual void readJson();
+
 protected:
-	void CreateScvs();             //产生scv
+	void CreateScv();             //产生scv
 };
+
 #endif

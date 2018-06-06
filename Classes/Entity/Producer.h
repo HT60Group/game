@@ -10,7 +10,10 @@ public:
 	CREATE_FUNC(Producer);
 	virtual bool init();
 
+	virtual void readJson();
+
 protected:
 	void CreateElectricity();             //²úÉúµç
 };
+
 #endif

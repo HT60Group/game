@@ -2,7 +2,7 @@
 #define _WarFactory_H_
 
 #include "Building.h"
-
+#include "Army/Tank.h"
 //战车工厂
 class WarFactory :public Building
 {
@@ -10,7 +10,10 @@ public:
 	CREATE_FUNC(WarFactory);
 	virtual bool init();
 
+	virtual void readJson();
+
 protected:
-	void CreateTanks();             //产生Tanks
+	void CreateTank();             //产生Tanks
 };
+
 #endif

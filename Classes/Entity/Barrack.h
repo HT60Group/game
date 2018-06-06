@@ -2,7 +2,9 @@
 #define _Barrack_H_
 
 #include "Building.h"
-
+#include "Army/Soldier.h"
+#include "Army/Sniper.h"
+#include "Army/Dog.h"
 //兵营
 class Barrack :public Building
 {
@@ -10,7 +12,12 @@ public:
 	CREATE_FUNC(Barrack);
 	virtual bool init();
 
+	virtual void readJson();
+
 protected:
-	void CreateSoldiers();             //产生soldiers
+	void CreateSoldier();             //产生soldiers
+	void CreateSniper();              //Sniper
+	void CreateDog();                 //dog
 };
+
 #endif

@@ -1,5 +1,6 @@
 #include "Open.h"
 #include "Entity/Building.h"
+#include "Entity/Mine/Mine.h"
 
 Scene* Open::createScene() {
 	auto scene = Scene::create();
@@ -14,6 +15,9 @@ bool Open::init() {
 
 	this->addChild(map);
 	
-	addBuilding(map);                     //加载建筑
+	Mine MyMine;
+	MyMine.init();
+
+//	addBuilding(map);                     //加载建筑
 	return true;
 }
