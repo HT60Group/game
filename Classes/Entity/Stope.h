@@ -10,7 +10,10 @@ public:
 	CREATE_FUNC(Stope);
 	virtual bool init();
 
+	virtual void readJson();
+
 protected:
 	void CreateMine();             //²úÉú¿ó
 };
+
 #endif

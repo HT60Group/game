@@ -11,8 +11,9 @@ public:
 	static Scene* createScene();
 	CREATE_FUNC(Open);
 	virtual bool init();
-	void addBuilding(TMXTiledMap* map);
+//	void addBuilding(TMXTiledMap* map);
 };
+/*
 void Open::addBuilding(TMXTiledMap* map)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -30,4 +31,5 @@ void Open::addBuilding(TMXTiledMap* map)
 	//将建筑添加到地图
 	map->addChild(mBuilding);
 }
+*/
 #endif

@@ -1,14 +1,16 @@
 #ifndef _Tank_H_
 #define _Tank_H_
 
-#include "Entity.h"
+#include "Army.h"
 
 using namespace cocos2d;
-class Tank :public Entity
+class Tank :public Army
 {
 public:
 	CREATE_FUNC(Tank);
 	virtual bool init();
 
+	//¶ÁÈ¡ÅäÖÃÎÄ¼ş
+	virtual void readJson();
 };
 #endif

@@ -1,13 +1,13 @@
-#ifndef _Sniper_H_
-#define _Sniper_H_
+#ifndef _Soilder_H_
+#define _Soilder_H_
 
 #include "Army.h"
 
 using namespace cocos2d;
-class Sniper :public Army
+class Soldier :public Army
 {
 public:
-	CREATE_FUNC(Sniper);
+	CREATE_FUNC(Soldier);
 	virtual bool init();
 
 	//¶ÁÈ¡ÅäÖÃÎÄ¼ş
