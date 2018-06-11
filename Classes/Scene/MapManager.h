@@ -1,6 +1,5 @@
-#pragma once
-#include<cocos2d.h>
-#include<MapScene.h>
+#include"cocos2d.h"
+#include"Scene/MapScene.h"
 using namespace cocos2d;
 
 class MapManager;

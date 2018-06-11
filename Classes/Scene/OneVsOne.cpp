@@ -26,7 +26,7 @@ bool OneVsOne::init() {
 void OneVsOne::buttonTurnToStart(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
-	auto scene = OneVsOne::createScene();
+	auto scene = MapScene::createScene();
 	Director::getInstance()->replaceScene(scene);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
