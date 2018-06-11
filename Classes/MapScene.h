@@ -17,7 +17,7 @@ public:
 
 
 	TMXTiledMap * map;
-	TMXLayer * meta;
+	/*TMXLayer * meta;*/
 private:
 
 	

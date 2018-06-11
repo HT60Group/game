@@ -25,5 +25,6 @@ private:
 	Point _mapMoveSpeed = Point(0, 0);//初始速度为0，向量
 	bool _isClick = false;
 	Point _mousePosition = Point(0, 0);
-	/*std::vector<std::vector<int>> _collidable((int)75,std::vector<int>(75,0));*/
+	std::vector<std::vector<int> > _collidable;//用于储存碰撞层的碰撞属性
+
 };

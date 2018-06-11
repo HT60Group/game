@@ -14,19 +14,20 @@ Scene* MapScene::createScene() {
 
 bool MapScene::init() {
 	map = TMXTiledMap::create("gandw.tmx");
-
-	//this->meta = map->getLayer("meta");//获得碰撞层
 	//this->meta->setVisible(false);//隐藏碰撞层
-	
 	this->addChild(map);//添加地图
 
-	MapManager* _mapmanager = MapManager::create();
-	this->addChild(_mapmanager);//添加管理器
+	//meta = map->getLayer("meta");//获得碰撞层
+	/*this->addChild(meta);*/
 
+	MapManager* _mapmanager = MapManager::create();
+	this->addChild(_mapmanager);//添加管理
+
+	_mapmanager->fill_collidable();
 	_mapmanager->SetMouseController();
 	_mapmanager->schedule(schedule_selector(MapManager::ControllerUpdate));//每帧调用函数
 	
-
+	
 	
 	
 	

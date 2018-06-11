@@ -10,6 +10,8 @@ bool MapManager::init()
 	{
 		return false;
 	}
+
+	
 	return true;
 }
 
@@ -39,6 +41,7 @@ void MapManager::ControllerUpdate(float dt)
 	auto _mapTiledNum = _map->getMapSize();//瓦片数目
 	auto _tiledSize = _map->getTileSize();//瓦片大小
 	
+	
 
 	Point _mapSize = Point(_mapTiledNum.width*_tiledSize.width, _mapTiledNum.width*_tiledSize.height);
 	int speed = 20;
@@ -47,9 +50,17 @@ void MapManager::ControllerUpdate(float dt)
 		log("pos_gl (%.2f,%.2f)", _mousePosition.x, _mousePosition.y);
 		Vec2 TiledPos = this->ConvertToMap(_mousePosition.x, _mousePosition.y,_map);
 		log("pos_ti (%.2f,%.2f)", TiledPos.x, TiledPos.y);
+		int posx = TiledPos.x;
+		int posy = TiledPos.y;
+		if (posx >= 0 && posx<75 && posy >= 0 && posy<75)
+		{
+			log("%d", _collidable[posx][posy]);
+		}
+		
+
+	
 	}
-	/*log("pos_world(%.2f,%.2f)", ConvertToMap(_mousePosition.x)
-		, scene->ConvertToMap(_mousePosition.y);*/
+
 
 	if (_mousePosition.x < (_visibleSize.width / 6) && !_isClick)
 	{
@@ -58,7 +69,6 @@ void MapManager::ControllerUpdate(float dt)
 			_currentPos += Point(speed, 0);
 		}
 	}
-
 
 	if (_mousePosition.x > (_visibleSize.width*5 / 6) && !_isClick)
 	{
@@ -86,26 +96,51 @@ void MapManager::ControllerUpdate(float dt)
 
 	_map->setPosition(_currentPos);
 }
-//void MapManager::fill_collidable()
-//{
-//	int i = 0, j = 0;
-//	auto map = static_cast<MapScene*>(this->getParent())->map;
-//	auto meta = static_cast<MapScene*>(this->getParent())->meta;
-//	auto tiledPos = Point(i, j);
-//	bool tiledGid = meta->getTileGIDAt(tiledPos);
-//	for (i; i < map->getMapSize().width; i++)
-//	{
-//		for ( j ; j < map->getMapSize().height; j++)
-//		{
-//			tiledGid = meta->getTileGIDAt(tiledPos);
-//			collidable[i][j] = tiledGid;
-//		}
-//	}
-//}
-//bool MapManager::isCollidable(Point)
-//{
-//
-//}
+void MapManager::fill_collidable()
+{
+	
+	auto _map = static_cast<MapScene*>(this->getParent())->map;
+	auto _meta = _map->getLayer("meta");
+	
+	
+	for (int i=0; i < 75; i++)
+	{
+		std::vector<int> temp;
+	
+		for ( int j=0 ; j < 75; j++)
+		{
+			
+			temp.push_back(1);
+			/*log("%d,%d", i, j);*/
+		}
+		_collidable.push_back(temp);
+	}
+	for (int i=0; i < 75; i++)
+	{
+		for (int j=0; j < 75; j++)
+		{
+			int tiledGid = _meta->getTileGIDAt(Vec2(i, j));
+			if (tiledGid)
+			{
+				_collidable[i][j] = 1;
+			}
+			else {
+				_collidable[i][j] = 0;
+			}
+			log("(%d,%d)=%d", i, j, _collidable[i][j]);
+			
+		}
+		
+	}
+}
+bool MapManager::isCollidable(Point pos)
+{
+	if (!_collidable[pos.x][pos.y] )
+	{
+		return true;
+	}
+	return true;
+}
 Vec2 MapManager::ConvertToMap(float x, float y,TMXTiledMap* map)
 {
 	int tilewidth = map->getTileSize().width;
@@ -125,18 +160,28 @@ Vec2 MapManager::ConvertToMap(float x, float y,TMXTiledMap* map)
 	//log("oa=(%.2f,%.2f)", OA_x, OA_y);//正确
 
 	float m = (OA_x / 64) - (OA_y / 32);
+	m = static_cast<int>(m);
+
 	/*log("m=%d",(int) m);*/
 	float n = -(OA_y / 32) - (OA_x / 64);
+	n = static_cast<int>(n);
 	/*log("n=%d", (int)n);*/
+	
+	/*int posx = m / 1;
+	int posy = n / 1;*/
 
-	if (m<0 || n<0 || m>map->getMapSize().width || n>map->getMapSize().height)
-	{
-		return Vec2(-1, -1);
-	}
-	m = (int)m;
-	n = (int)n;
+	/*log("%d,%d", posx, posy);*/
 
-	return Vec2(m, n);
+	
+	
+
+	//if (posx<0 || posy<0 || posx>map->getMapSize().width || posy>map->getMapSize().height)
+	//{
+	//	return Vec2(-1, -1);
+	//}
+	
+	
+	return Vec2(m,n);
 }
 
 Vec2 MapManager::ConvertToScene(int x, int y,TMXTiledMap* map)
