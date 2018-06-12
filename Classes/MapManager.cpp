@@ -44,7 +44,7 @@ void MapManager::ControllerUpdate(float dt)
 	
 
 	Point _mapSize = Point(_mapTiledNum.width*_tiledSize.width, _mapTiledNum.width*_tiledSize.height);
-	int speed = 20;
+	int speed = 50;
 	if (_isClick == true)
 	{
 		log("pos_gl (%.2f,%.2f)", _mousePosition.x, _mousePosition.y);
@@ -67,34 +67,34 @@ void MapManager::ControllerUpdate(float dt)
 		if (_currentPos.x < 0)
 		{
 			_currentPos += Point(speed, 0);
+			_map->setPosition(_currentPos);
 		}
 	}
-
 	if (_mousePosition.x > (_visibleSize.width*5 / 6) && !_isClick)
 	{
 		if (_currentPos.x+_mapSize.x > _visibleSize.width)
 		{
 			_currentPos += Point(-speed, 0);
+			_map->setPosition(_currentPos);
 		}
 	}
-
 	if (_mousePosition.y < (_visibleSize.height / 6) && !_isClick)
 	{
 		if (_currentPos.y < 0)
 		{
 			_currentPos += Point(0, speed);
+			_map->setPosition(_currentPos);
 		}
 	}
-	
 	if (_mousePosition.y > (_visibleSize.height*5 / 6) && !_isClick)
 	{
 		if (_currentPos.y+ _mapSize.y > _visibleSize.height)
 		{
 			_currentPos += Point(0, -speed);
+			_map->setPosition(_currentPos);
 		}
 	}
-
-	_map->setPosition(_currentPos);
+	
 }
 void MapManager::fill_collidable()
 {
@@ -109,7 +109,6 @@ void MapManager::fill_collidable()
 	
 		for ( int j=0 ; j < 75; j++)
 		{
-			
 			temp.push_back(1);
 			/*log("%d,%d", i, j);*/
 		}
@@ -124,10 +123,11 @@ void MapManager::fill_collidable()
 			{
 				_collidable[i][j] = 1;
 			}
-			else {
+			else 
+			{
 				_collidable[i][j] = 0;
 			}
-			log("(%d,%d)=%d", i, j, _collidable[i][j]);
+			/*log("(%d,%d)=%d", i, j, _collidable[i][j]);*/
 			
 		}
 		

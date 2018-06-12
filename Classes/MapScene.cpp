@@ -1,6 +1,7 @@
 #include "MapScene.h"
 #include "cocos2d.h"
 #include"MapManager.h"
+#include "MenuLayer.h"
 
 using namespace cocos2d;
 
@@ -14,7 +15,7 @@ Scene* MapScene::createScene() {
 
 bool MapScene::init() {
 	map = TMXTiledMap::create("gandw.tmx");
-	//this->meta->setVisible(false);//Òþ²ØÅö×²²ã
+	
 	this->addChild(map);//Ìí¼ÓµØÍ¼
 
 	//meta = map->getLayer("meta");//»ñµÃÅö×²²ã
@@ -22,6 +23,9 @@ bool MapScene::init() {
 
 	MapManager* _mapmanager = MapManager::create();
 	this->addChild(_mapmanager);//Ìí¼Ó¹ÜÀí
+
+	MenuLayer* _menulayer = MenuLayer::create();
+	this->addChild(_menulayer);
 
 	_mapmanager->fill_collidable();
 	_mapmanager->SetMouseController();
