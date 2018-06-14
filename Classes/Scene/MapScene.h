@@ -14,6 +14,6 @@ public:
 	TMXTiledMap* map;
 	Vec2 ConvertToMap(float x, float y);
 	Vec2 ConvertToScene(int x, int y);
-	
+	bool _isCollidable = false;//ÊÇ·ñÅö×²
 };
 #endif

@@ -49,7 +49,7 @@ void MapManager::ControllerUpdate(float dt)
 	/*log("pos_world(%.2f,%.2f)", ConvertToMap(_mousePosition.x)
 		, scene->ConvertToMap(_mousePosition.y);*/
 
-	if (_mousePosition.x < (_visibleSize.width / 6) && !_isClick)
+	if (_mousePosition.x < (_visibleSize.width / 32) && !_isClick)
 	{
 		if (_currentPos.x < 0)
 		{
@@ -58,7 +58,7 @@ void MapManager::ControllerUpdate(float dt)
 	}
 
 
-	if (_mousePosition.x > (_visibleSize.width*5 / 6) && !_isClick)
+	if (_mousePosition.x > (_visibleSize.width*31 / 32) && !_isClick)
 	{
 		if (_currentPos.x+_mapSize.x > _visibleSize.width)
 		{
@@ -66,7 +66,7 @@ void MapManager::ControllerUpdate(float dt)
 		}
 	}
 
-	if (_mousePosition.y < (_visibleSize.height / 6) && !_isClick)
+	if (_mousePosition.y < (_visibleSize.height / 32) && !_isClick)
 	{
 		if (_currentPos.y < 0)
 		{
@@ -74,7 +74,7 @@ void MapManager::ControllerUpdate(float dt)
 		}
 	}
 	
-	if (_mousePosition.y > (_visibleSize.height*5 / 6) && !_isClick)
+	if (_mousePosition.y > (_visibleSize.height*31 / 32) && !_isClick)
 	{
 		if (_currentPos.y+ _mapSize.y > _visibleSize.height)
 		{
