@@ -1,77 +1,21 @@
 #include "Building.h"
 
+Building::Building(){}
+Building::~Building() {}
 bool Building::init()
 {
-	readJson();
-
-
-	//订阅类型为test的消息,传递数据NULL
-	NotificationCenter::getInstance()->addObserver(
-		this,
-		callfuncO_selector(Building::testMsg),
-		"test",
-		NULL);
-
-	//3秒后发布test消息
-	this->schedule(schedule_selector(Building::sendMsg), 3.0f);
-
-	this->scheduleUpdate();
+	//readJson();
 	return true;
 }
 
-void Building::changeState(EnumState enState)
-{
-	this->enCurState = enState;
-}
-
-//如果血量大于0即存活 
-bool Building::isAlive()
-{
-	if (Hp > 0){
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-//如果矿和气足够就能制造
-bool Building::isCreateSoldiers()
-{
-	return true;
-}
-
-
-void Building::update(float dt)
-{
-	switch (enCurState) {
-	case enAlive:
-		if (!isAlive())
-		{
-
-		}
-		break;
-	};
-}
-
-void Building::sendMsg(float dt)
-{
-	NotificationCenter::getInstance()->postNotification("test", NULL);
-	//发布test消息
-}
-
-void Building::getMsg(float dt)
-{
-	//接受test消息
-}
-
-void Building::readJson()
-{
-	Json::Reader reader;
-	Json::Value root;
-
-	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
-}
+//void Building::readJson()
+//{
+//	Json::Reader reader;
+//	Json::Value root;
+//	
+//	totalHp = Hp;
+//	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
+//}
 
 
 Building* Building::create(Building* sprite, const char *filename)
@@ -79,12 +23,54 @@ Building* Building::create(Building* sprite, const char *filename)
 	if (sprite &&sprite->initWithFile(filename))
 	{
 		sprite->autorelease();
-
 		return sprite;
 	}
-
 	CC_SAFE_DELETE(sprite);
 
 	return nullptr;
 }
 
+bool Building::isDeath()
+{
+	return isBroken;
+}
+
+void Building::hurt(int x)
+{
+	if (Hp <= 0 || isBroken == true) {
+		isBroken = true;
+		return;
+	}
+
+	Hp -= x;
+	if (Hp <= 0) {
+
+		this->isBroken = true;
+
+		auto bg = (Sprite*)this->getChildByName("Bar");
+		bg->removeFromParent();
+		normal->setVisible(false);
+
+	// 基地爆炸,游戏结束
+	//	auto layer = (BattleMapLayer*)this->getParent();
+	//	layer->_ai->gameOver(GAME_OVER_SUCCESS);
+	}
+	else {
+		//血条变化
+		//hpBar->setPercent(100.0 * Hp / totalHP);
+	}
+}
+
+bool Building::isClickMe(Point pos) {
+	Size size = getSprite()->getContentSize();
+	Point borderPos = getPosition();
+
+	Point srcPos = Point(borderPos.x - size.width / 2, borderPos.y + size.height / 2);
+	Point destPos = Point(borderPos.x + size.width / 2, borderPos.y - size.height / 2);
+
+	if (pos.x >= srcPos.x && pos.x <= destPos.x &&pos.y <= srcPos.y &&pos.y >= destPos.y) {
+		return true;
+	}
+	return false;
+}
+ 

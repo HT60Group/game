@@ -20,13 +20,14 @@ bool OneVsOne::init() {
 	Button* Start = (Button*)Helper::seekWidgetByName(UI, "Start");
 	Start->setTouchEnabled(true);
 	Start->addTouchEventListener(CC_CALLBACK_1(OneVsOne::buttonTurnToStart, this));
+
 	return true;
 }
 
 void OneVsOne::buttonTurnToStart(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
-	auto scene = OneVsOne::createScene();
+	auto scene = MapScene::createScene();
 	Director::getInstance()->replaceScene(scene);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
