@@ -26,12 +26,9 @@ bool MapScene::init() {
 	_mapmanager->schedule(schedule_selector(MapManager::ControllerUpdate));//每帧调用函数
 	
 
-	Base* base = new Base();
-	Building::create(base, "Base.png");     //此处需要图片——图片
+	BuildingManager* m_buildingMgr = BuildingManager::createBuildingMgr();
+	this->addChild(m_buildingMgr, 1);
 
-	this->addChild(base);
-
-	base->setPosition(Point(0, 0));            //setPosition
 	
 	return true;
 }

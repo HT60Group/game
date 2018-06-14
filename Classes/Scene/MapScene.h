@@ -3,6 +3,7 @@
 #define _MapScene_H_
 
 #include"cocos2d.h"
+#include "AIManager/BuildingManager.h"
 using namespace cocos2d;
 
 class MapScene :public Scene {
