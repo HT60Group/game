@@ -4,89 +4,37 @@ bool MenuLayer::init()
 {
 	auto _visibleSize = Director::getInstance()->getVisibleSize();//屏幕大小
 
-																  //设置菜单层
+
+	//设置菜单层
 	menuLayer = LayerColor::create(Color4B(225, 105, 180, 80));
 	menuLayer->setPosition(_visibleSize.width * 5 / 6, 0);
-	this->addChild(menuLayer);
+	this->addChild(menuLayer, UI_LAYEER_LVL);
 	//放置UI
 	auto UI_menu = cocostudio::GUIReader::getInstance()->
 		widgetFromJsonFile("menu_1.ExportJson");
 	UI_menu->setPosition(Point(0, 0));
 
-
-	this->addChild(UI_menu);
-	
-	//auto menu_listener = EventListenerTouchOneByOne::create();
-
-	//Button* button_producer = (Button*)Helper::seekWidgetByName(UI_menu, "button_producer");
-	///*OnClick_producer(UI_menu);*/
+	this->addChild(UI_menu, UI_LAYEER_LVL);
 
 	Button* barrack = (Button*)Helper::seekWidgetByName(UI_menu, "Button_barracks");
 	barrack->setTouchEnabled(false);
+	Button* producer = (Button*)Helper::seekWidgetByName(UI_menu, "Button_producer");
+	producer->setTouchEnabled(false);
+	Button* stope = (Button*)Helper::seekWidgetByName(UI_menu, "Button_Stope");
+	stope->setTouchEnabled(false);
+	Button* warfac = (Button*)Helper::seekWidgetByName(UI_menu, "Button_WarFactory");
+	warfac->setTouchEnabled(false);
 
-	//barrack->addTouchEventListener(CC_CALLBACK_1(MenuLayer::barrackbutton, this));
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(MenuLayer::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(MenuLayer::onTouchMoved, this);
 	listener->onTouchEnded = CC_CALLBACK_2(MenuLayer::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, barrack);
-
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), producer);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), stope);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), warfac);
 	return true;
 }
-//void MenuLayer::barrackbutton(Ref* pSender)
-//{
-//	auto listener= EventListenerTouchOneByOne::create();
-//	listener->onTouchBegan = [&](Touch*touch,Event* event) {
-//		createBarrack(Point(0,0));
-//		auto target = static_cast<Sprite*>(event->getCurrentTarget());
-//		Point pos = target->convertToNodeSpace(touch->getLocation());
-//		Size s = target->getContentSize();
-//		Rect rect = Rect(0, 0, s.width, s.height);
-//		if (rect.containsPoint(pos))
-//		{
-//			log("sprite began... x = %f, y = %f", pos.x, pos.y);
-//			target->setOpacity(180);
-//			return true;
-//		}
-//		return false;
-//	};
-//	listener->onTouchEnded = [&](Touch*touch,Event* event) {
-//		Point tpos = Director::getInstance()->convertToGL(touch->getLocationInView());
-//		createBarrack(tpos);
-//	};
-//
-//}
-
-
-//void MenuLayer::OnClick_producer(cocos2d::ui::Widget* UI_menu )
-//{
-//	auto listener = EventListenerMouse::create();
-//	Button* button_producer = (Button*)Helper::seekWidgetByName(UI_menu, "button_producer");
-//	bool _isClick = false;
-//	listener->onMouseUp = [&](Event* event)
-//	{
-//		return true;
-//	};
-//	listener->onMouseDown = [&](EventMouse* event )
-//	{
-//	
-//	};
-//	listener->onMouseMove = [&](EventMouse* event)
-//	{
-//
-//	};
-//}
-void MenuLayer::createBarrack(Point tpos) {
-	//create Barrack
-	Barrack* barrack = new Barrack();
-	Building::create(barrack, "Barracks.png");     //此处需要图片——大兵图片
-	this->addChild(barrack);
-	//static_cast<MapScene*>(this->getParent())->map->addChild(barrack);
-	barrack->setPosition(tpos);            //setPosition
-
-	/*m_BuildingList.pushBack(barrack);*/
-}
-
 bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 {
 	auto target = static_cast<Sprite*>(event->getCurrentTarget());
@@ -95,23 +43,84 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 	Rect rect = Rect(0, 0, s.width, s.height);
 	if (rect.containsPoint(pos))
 	{
+		log("%f", touch->getLocation().y);
+		if (touch->getLocation().y > 700)
+		{
+			message = "barrack";
+		}
+		else if(touch->getLocation().y>500){
+			message = "producer";
+		}
+		else if(touch->getLocation().y>270){
+			message = "stope";
+		}
+		else {
+			message = "warfac";
+		}
 		return true;
 	}
 	return false;
 }
 void MenuLayer::onTouchMoved(Touch* touch, Event* event)
 {
-    auto target = static_cast<Sprite*>(event->getCurrentTarget());
-	Point pos = target->convertToNodeSpace(touch->getLocation());
-	Size s = target->getContentSize();
-	Rect rect = Rect(0, 0, s.width, s.height);
-	if (rect.containsPoint(pos))
-	{
-		//target->setPosition(target->getPosition() + touch->getDelta());
-	}
+
 }
 void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 {
+	auto target = static_cast<Sprite*>(event->getCurrentTarget());
 	Point tpos = Director::getInstance()->convertToGL(touch->getLocationInView());
-	createBarrack(tpos);
+	auto _currentPos = static_cast<MapScene*>(this->getParent())->map->getPosition();//地图的绝对坐标
+
+	tpos.x -= _currentPos.x;
+	tpos.y -= _currentPos.y;
+	if (message == "barrack") {
+	    createBarrack(tpos);
+	}
+	if (message == "producer"){
+		createProducer(tpos);
+	}
+	if (message == "stope") {
+		createStope(tpos);
+	}
+	if (message == "warfac") {
+		createWarFactory(tpos);
+	}
+}
+void MenuLayer::createBarrack(Point tpos) {
+	//create Barrack
+	Barrack* barrack = new Barrack();
+	Building::create(barrack, "Barracks.png");     //此处需要图片——大兵图片
+												   //this->addChild(barrack);
+	static_cast<MapScene*>(this->getParent())->map->addChild(barrack, BUILDING_LAYEER_LVL);
+	barrack->setPosition(tpos);            //setPosition
+
+										   /*m_BuildingList.pushBack(barrack);*/
+}
+void MenuLayer::createProducer(Point tpos) {
+	//create Producer
+	Producer* producer = new Producer();
+	Building::create(producer, "Producer.png");     //此处需要图片——大兵图片
+													//this->addChild(barrack);
+	static_cast<MapScene*>(this->getParent())->map->addChild(producer, BUILDING_LAYEER_LVL);
+	producer->setPosition(tpos);            //setPosition
+
+											/*m_BuildingList.pushBack(barrack);*/
+}
+void MenuLayer::createStope(Point tpos) {
+	//create Stope
+	Stope* stope = new Stope();
+	Building::create(stope, "Stope.png");     //此处需要图片——大兵图片
+												   //this->addChild(barrack);
+	static_cast<MapScene*>(this->getParent())->map->addChild(stope, BUILDING_LAYEER_LVL);
+	stope->setPosition(tpos);            //setPosition
+										   /*m_BuildingList.pushBack(barrack);*/
+}
+void MenuLayer::createWarFactory(Point tpos) {
+	//create WarFactory
+	WarFactory* warfac = new WarFactory();
+	Building::create(warfac, "WarFactory.png");     //此处需要图片——大兵图片
+											  //this->addChild(barrack);
+	static_cast<MapScene*>(this->getParent())->map->addChild(warfac, BUILDING_LAYEER_LVL);
+	warfac->setPosition(tpos);            //setPosition
+										 /*m_BuildingList.pushBack(barrack);*/
 }

@@ -7,6 +7,10 @@
 #include"Entity/Building.h"
 #include"Entity/Base.h"
 #include "cocos2d.h"
+#define MAP_LAYEER_LVL 3
+#define UI_LAYEER_LVL 10
+#define BUILDING_LAYEER_LVL 15
+#define ARMY_LAYEER_LVL 20
 using namespace cocos2d;
 USING_NS_CC_EXT;
 using namespace cocos2d::extension;
@@ -22,10 +26,12 @@ public:
 	void setMouseController();
 	void Controller();
 	//void OnClick_producer(cocos2d::ui::Widget* UI_menu );
-	void MenuLayer::createBarrack(Point tpos);
+	void createBarrack(Point tpos);
+	void createProducer(Point tpos);
+	void createStope(Point tpos);
+	void createWarFactory(Point tpos);
 	//void barrackbutton(Ref* pSender, Widget::TouchEventType type);
 	//void barrackbutton(Ref* pSender,Button* barrack);
-	void barrackbutton(Ref* pSender);
 	/*MenuItemImage* button_producer;
 	MenuItemImage* button_barracks;
 	MenuItemImage* button_Stope;
@@ -33,4 +39,5 @@ public:
 	void onTouchMoved(Touch* touch, Event* event);
 	bool onTouchBegan(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touch, Event* event);
+	std::string message;
 };

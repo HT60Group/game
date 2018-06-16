@@ -37,7 +37,6 @@ void MapManager::ControllerUpdate(float dt)
 	auto _mapTiledNum = _map->getMapSize();//瓦片数目
 	auto _tiledSize = _map->getTileSize();//瓦片大小
 	
-
 	Point _mapSize = Point(_mapTiledNum.width*_tiledSize.width, _mapTiledNum.width*_tiledSize.height);
 	int speed = 20;
 	if (_isClick == true)
@@ -83,4 +82,84 @@ void MapManager::ControllerUpdate(float dt)
 	}
 
 	_map->setPosition(_currentPos);
+}
+void MapManager::fill_collidable()
+{
+
+	auto _map = static_cast<MapScene*>(this->getParent())->map;
+	auto _meta = _map->getLayer("meta");
+
+
+	for (int i = 0; i < 75; i++)
+	{
+		std::vector<int> temp;
+
+		for (int j = 0; j < 75; j++)
+		{
+			temp.push_back(1);
+			/*log("%d,%d", i, j);*/
+		}
+		_collidable.push_back(temp);
+	}
+	for (int i = 0; i < 75; i++)
+	{
+		for (int j = 0; j < 75; j++)
+		{
+			int tiledGid = _meta->getTileGIDAt(Vec2(i, j));
+			if (tiledGid)
+			{
+				_collidable[i][j] = 1;
+			}
+			else
+			{
+				_collidable[i][j] = 0;
+			}
+			/*log("(%d,%d)=%d", i, j, _collidable[i][j]);*/
+
+		}
+
+	}
+}
+bool MapManager::isCollidable(Point pos)
+{
+	if (!_collidable[pos.x][pos.y])
+	{
+		return true;
+	}
+	return true;
+}
+Vec2 MapManager::ConvertToMap(float x, float y, TMXTiledMap* map)
+{
+	int tilewidth = map->getTileSize().width;
+	int tileheight = map->getTileSize().height;//正确
+
+	float mapOrginX = map->getPosition().x + map->getMapSize().width *tilewidth / 2;
+	float mapOrginY = map->getPosition().y + map->getMapSize().height*tileheight;//正确
+	float OA_x = x - mapOrginX;
+	float OA_y = y - mapOrginY;
+
+	float m = (OA_x / 64) - (OA_y / 32);
+	m = static_cast<int>(m);
+
+	float n = -(OA_y / 32) - (OA_x / 64);
+	n = static_cast<int>(n);
+	return Vec2(m, n);
+}
+
+Vec2 MapManager::ConvertToScene(int x, int y, TMXTiledMap* map)
+{
+	float tilewidth = map->getTileSize().width;
+	float tileheight = map->getTileSize().height;
+
+	int mapOrginX = map->getPosition().x + map->getContentSize().width / 2;
+	int mapOrginY = map->getPosition().y + map->getContentSize().height;
+
+	if (x > map->getMapSize().width || x<0
+		|| y>map->getMapSize().height || y < 0)
+	{
+		return Point(0, 0);
+	}
+	float OA_x = (x - y)*tilewidth / 2.0;
+	float OA_y = -(x + y)*tileheight / 2.0;
+	return Vec2(mapOrginX + OA_x, mapOrginY + OA_y);
 }
