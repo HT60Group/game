@@ -13,6 +13,16 @@ bool Producer::init()
 	producer->setPosition(Point(0, 0));            //setPosition
 	return true;
 }
+void Producer::showUI() {
+	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("hpBar_1.ExportJson");
+	this->addChild(UI);
+	Size size = this->getContentSize();
+	UI->setPosition(Point(size.width*0.4f, size.height));
+
+	hpBar = (LoadingBar*)Helper::seekWidgetByName(UI, "HpBar");
+	hpBar->setPercent(100);
+	totalHp = Hp;
+}
 //
 //void Producer::readJson()
 //{

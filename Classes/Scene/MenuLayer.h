@@ -6,7 +6,10 @@
 #include "ui/UIWidget.h"
 #include"Entity/Building.h"
 #include"Entity/Base.h"
-#include "cocos2d.h"
+#include"Entity/Barrack.h"
+#include"Entity/Stope.h"
+#include"Entity/WarFactory.h"
+#include"Entity/Producer.h"
 #define MAP_LAYEER_LVL 3
 #define UI_LAYEER_LVL 10
 #define BUILDING_LAYEER_LVL 15

@@ -5,9 +5,19 @@ Building::~Building() {}
 bool Building::init()
 {
 	//readJson();
+	showUI();
 	return true;
 }
+void Building::showUI() {
+	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("HpBar/hpBar_1.ExportJson");
+	this->addChild(UI);
+	Size size = this->getContentSize();
+	UI->setPosition(Point(size.width*0.5f, size.height));
 
+	hpBar = (LoadingBar*)Helper::seekWidgetByName(UI, "HpBar");
+	hpBar->setPercent(100);
+	totalHp = Hp;
+}
 //void Building::readJson()
 //{
 //	Json::Reader reader;
@@ -26,7 +36,6 @@ Building* Building::create(Building* sprite, const char *filename)
 		return sprite;
 	}
 	CC_SAFE_DELETE(sprite);
-
 	return nullptr;
 }
 

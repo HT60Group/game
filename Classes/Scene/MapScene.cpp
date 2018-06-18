@@ -27,7 +27,6 @@ bool MapScene::init() {
 
 	//BuildingManager* m_buildingMgr = BuildingManager::createBuildingMgr();
 	//this->addChild(m_buildingMgr, 1);
-
 	
 	return true;
 }

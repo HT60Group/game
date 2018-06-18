@@ -93,6 +93,7 @@ void MenuLayer::createBarrack(Point tpos) {
 												   //this->addChild(barrack);
 	static_cast<MapScene*>(this->getParent())->map->addChild(barrack, BUILDING_LAYEER_LVL);
 	barrack->setPosition(tpos);            //setPosition
+	barrack->showUI();
 
 										   /*m_BuildingList.pushBack(barrack);*/
 }
@@ -103,7 +104,7 @@ void MenuLayer::createProducer(Point tpos) {
 													//this->addChild(barrack);
 	static_cast<MapScene*>(this->getParent())->map->addChild(producer, BUILDING_LAYEER_LVL);
 	producer->setPosition(tpos);            //setPosition
-
+	producer->showUI();
 											/*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createStope(Point tpos) {
@@ -113,6 +114,7 @@ void MenuLayer::createStope(Point tpos) {
 												   //this->addChild(barrack);
 	static_cast<MapScene*>(this->getParent())->map->addChild(stope, BUILDING_LAYEER_LVL);
 	stope->setPosition(tpos);            //setPosition
+	stope->showUI();
 										   /*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createWarFactory(Point tpos) {
@@ -122,5 +124,6 @@ void MenuLayer::createWarFactory(Point tpos) {
 											  //this->addChild(barrack);
 	static_cast<MapScene*>(this->getParent())->map->addChild(warfac, BUILDING_LAYEER_LVL);
 	warfac->setPosition(tpos);            //setPosition
+	warfac->showUI();
 										 /*m_BuildingList.pushBack(barrack);*/
 }

@@ -5,13 +5,23 @@ bool Barrack::init()
 	//readJson();
 
 	//create Barrack
-	Barrack* barrack = new Barrack();
-	Building::create(barrack, "Barrack.png");     //此处需要图片——图片
+	//Barrack* barrack = new Barrack();
+	//Building::create(barrack, "Barrack.png");     //此处需要图片——图片
 
-	this->addChild(barrack);
+	//this->addChild(barrack);
 
-	barrack->setPosition(Point(0, 0));            //setPosition
+	//barrack->setPosition(Point(0, 0));            //setPosition
 	return true;
+}
+void Barrack::showUI() {
+	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("hpBar_1.ExportJson");
+	this->addChild(UI);
+	Size size = this->getContentSize();
+	UI->setPosition(Point(size.width*0.4f, size.height*0.9f));
+
+	hpBar = (LoadingBar*)Helper::seekWidgetByName(UI, "HpBar");
+	hpBar->setPercent(100);
+	totalHp = Hp;
 }
 //
 //void Barrack::readJson()
