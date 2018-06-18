@@ -10,7 +10,7 @@ public :
 	~Base();
 	CREATE_FUNC(Base);
 	virtual bool init();
-	
+	virtual void showUI();
 	//virtual void readJson();
 //protected:
 	//void CreateScv();             //²úÉúscv

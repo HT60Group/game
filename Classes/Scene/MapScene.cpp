@@ -1,32 +1,26 @@
 #include "MapScene.h"
-#include "cocos2d.h"
-#include"MapLayer.h"
-#include "MenuLayer.h"
-
-using namespace cocos2d;
-
 
 Scene* MapScene::createScene() {
 	auto scene = Scene::create();
 	auto layer = MapScene::create();
+	//_mapLayer = MapLayer::create();
+	//MenuLayer* menulayer = MenuLayer::create();
+	TollgateDataLayer* dataLayer = TollgateDataLayer::create();
 	scene->addChild(layer);
+	//scene->addChild(layer);
+	//scene->addChild(mapLayer,1);
+	//scene->addChild(menulayer,3,UI_LAYEER_LVL);
+	scene->addChild(dataLayer, 5, UI_LAYEER_LVL);
 	return scene;
 }
 
 bool MapScene::init() {
-	
-
-
-	_maplayer = MapLayer::create();
-	this->addChild(_maplayer);//添加管理
-
+	_mapLayer = MapLayer::create();
+	this->addChild(_mapLayer);//添加管理
+	//_mapLayer = this->_mapLayer;
+	//map = _mapLayer->map;
 	MenuLayer* _menulayer = MenuLayer::create();
 	this->addChild(_menulayer);
-
-	
-	
-	
-	
 	
 	
 	return true;

@@ -9,7 +9,7 @@ class WarFactory :public Building
 public:
 	CREATE_FUNC(WarFactory);
 	virtual bool init();
-
+	virtual void showUI();
 	//virtual void readJson();
 
 protected:

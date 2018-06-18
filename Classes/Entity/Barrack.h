@@ -11,7 +11,7 @@ class Barrack :public Building
 public:
 	CREATE_FUNC(Barrack);
 	virtual bool init();
-
+	virtual void showUI();
 	//virtual void readJson();
 
 protected:

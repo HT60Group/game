@@ -19,6 +19,16 @@ bool Base::init()
 	base->setPosition(Point(0, 0));            //setPosition
 	return true;
 }
+void Base::showUI() {
+	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("hpBar_1.ExportJson");
+	this->addChild(UI);
+	Size size = this->getContentSize();
+	UI->setPosition(Point(size.width*0.4f, size.height*0.9f));
+
+	hpBar = (LoadingBar*)Helper::seekWidgetByName(UI, "HpBar");
+	hpBar->setPercent(100);
+	totalHp = Hp;
+}
 //
 //void Base::readJson()
 //{

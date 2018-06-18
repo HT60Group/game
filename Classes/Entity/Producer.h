@@ -9,7 +9,7 @@ class Producer :public Building
 public:
 	CREATE_FUNC(Producer);
 	virtual bool init();
-
+	virtual void showUI();
 	//virtual void readJson();
 
 protected:

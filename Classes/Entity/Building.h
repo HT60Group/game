@@ -5,8 +5,16 @@
 #include "Entity/Entity.h"
 //#include "json/json.h"
 //#include "AIManager/AIManager.h"
+#include"cocos-ext.h"
+#include"ui/cocosGUI.h"
+#include"editor-support/cocostudio/CCSGUIReader.h"
 
+USING_NS_CC_EXT;
+using namespace cocos2d::extension;
+using namespace cocos2d::ui;
+using namespace cocostudio;
 using namespace cocos2d;
+
 enum EnumState {
 	enAlive,            //存活状态
 	enCreate,           //建造状态————不一定要有
@@ -19,7 +27,7 @@ public:
 	~Building();
 	CREATE_FUNC(Building);
 	virtual bool init();
-
+	virtual void showUI();
 	////读取配置文件
 	//virtual void readJson();
 
@@ -45,8 +53,9 @@ protected:
 	int index;                 // 内存中的数组下标
 	int id;                    // 编号
 	int BuildingID;            // 建筑编号ID
-
-//	LoadingBar* hpBar;         // 血条
+	//virtual void ondied() override;
+	//virtual void onHurt(int iHurtValue) override;
+	LoadingBar* hpBar;         // 血条
 	Entity* target;
 	//AIManager* ai;
 };

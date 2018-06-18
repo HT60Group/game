@@ -1,12 +1,8 @@
-#include"cocos2d.h"
 #include"MapLayer.h"
-#include"MapScene.h"
-
-using namespace cocos2d;
 
 bool MapLayer::init()
 {
-	if(!Node::init())
+	if(!Layer::init())
 	{
 		return false;
 	}
@@ -24,17 +20,13 @@ bool MapLayer::init()
 void MapLayer::SetMouseController()
 {
 	auto listener = EventListenerMouse::create();
-
 	listener->onMouseDown = [&](Event*) {_isClick = true; };
-
 	listener->onMouseMove=[&](Event* event)
 	{
 		_mousePosition.x = static_cast<EventMouse*>(event)->getCursorX();
 		_mousePosition.y = static_cast<EventMouse*>(event)->getCursorY();
 	};
-
 	listener->onMouseUp = [&](Event*) {_isClick = false; };
-
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
@@ -62,13 +54,8 @@ void MapLayer::ControllerUpdate(float dt)
 		{
 			log("%d", _collidable[posx][posy]);
 		}
-		
-
-	
 	}
-
-
-	if (_mousePosition.x < (_visibleSize.width / 6) && !_isClick)
+	if (_mousePosition.x < (_visibleSize.width / 60) && !_isClick)
 	{
 		if (_currentPos.x < 0)
 		{
@@ -76,7 +63,7 @@ void MapLayer::ControllerUpdate(float dt)
 			_map->setPosition(_currentPos);
 		}
 	}
-	if (_mousePosition.x > (_visibleSize.width*60/61) && !_isClick)
+	if (_mousePosition.x > (_visibleSize.width*59/60) && !_isClick)
 	{
 		if (_currentPos.x+_mapSize.x > _visibleSize.width)
 		{
@@ -84,7 +71,7 @@ void MapLayer::ControllerUpdate(float dt)
 			_map->setPosition(_currentPos);
 		}
 	}
-	if (_mousePosition.y < (_visibleSize.height / 6) && !_isClick&&_mousePosition.x<_visibleSize.width*5/6)
+	if (_mousePosition.y < (_visibleSize.height / 6) && !_isClick&&_mousePosition.x<_visibleSize.width*59/60)
 	{
 		if (_currentPos.y < 0)
 		{
@@ -92,7 +79,7 @@ void MapLayer::ControllerUpdate(float dt)
 			_map->setPosition(_currentPos);
 		}
 	}
-	if (_mousePosition.y > (_visibleSize.height*5 / 6) && !_isClick)
+	if (_mousePosition.y > (_visibleSize.height*59 / 60) && !_isClick)
 	{
 		if (_currentPos.y+ _mapSize.y > _visibleSize.height)
 		{
@@ -100,14 +87,11 @@ void MapLayer::ControllerUpdate(float dt)
 			_map->setPosition(_currentPos);
 		}
 	}
-	
 }
 void MapLayer::fill_collidable()
 {
-	
 	auto _map = map;
 	auto _meta = _map->getLayer("meta");
-	
 	
 	for (int i=0; i < 75; i++)
 	{
@@ -152,8 +136,6 @@ Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
 	int tilewidth = map->getTileSize().width;
 	int tileheight = map->getTileSize().height;//正确
 											   /*log("tile.w=%d,tile.h=%d", tilewidth, tileheight);*/
-
-
 											   //瓦片地图原点的gl坐标
 	float mapOrginX = map->getPosition().x + map->getMapSize().width *tilewidth / 2;
 	float mapOrginY = map->getPosition().y + map->getMapSize().height*tileheight;//正确
@@ -177,16 +159,10 @@ Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
 	int posy = n / 1;*/
 
 	/*log("%d,%d", posx, posy);*/
-
-	
-	
-
 	//if (posx<0 || posy<0 || posx>map->getMapSize().width || posy>map->getMapSize().height)
 	//{
 	//	return Vec2(-1, -1);
 	//}
-	
-	
 	return Vec2(m,n);
 }
 

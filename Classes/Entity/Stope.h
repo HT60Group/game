@@ -9,7 +9,7 @@ class Stope :public Building
 public:
 	CREATE_FUNC(Stope);
 	virtual bool init();
-
+	virtual void showUI();
 	//virtual void readJson();
 
 protected:
