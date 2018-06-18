@@ -69,7 +69,7 @@ void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	auto target = static_cast<Sprite*>(event->getCurrentTarget());
 	Point tpos = Director::getInstance()->convertToGL(touch->getLocationInView());
-	auto _currentPos = static_cast<MapScene*>(this->getParent())->map->getPosition();//地图的绝对坐标
+	auto _currentPos = static_cast<MapLayer*>(static_cast<MapScene*>(this->getParent())->_mapLayer)->map->getPosition();//地图的绝对坐标
 
 	tpos.x -= _currentPos.x;
 	tpos.y -= _currentPos.y;
@@ -91,10 +91,14 @@ void MenuLayer::createBarrack(Point tpos) {
 	Barrack* barrack = new Barrack();
 	Building::create(barrack, "Barracks.png");     //此处需要图片——大兵图片
 												   //this->addChild(barrack);
-	static_cast<MapScene*>(this->getParent())->map->addChild(barrack, BUILDING_LAYEER_LVL);
+	auto tmap = static_cast<MapScene*>(this->getParent())->_mapLayer->map;
+	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
 	barrack->setPosition(tpos);            //setPosition
 	barrack->showUI();
-
+	Vec2 a = static_cast<MapScene*>(this->getParent())->_mapLayer->ConvertToMap(tpos.x, tpos.y, tmap);
+	log("a(%f,%f)", a.x, a.y);
+	static_cast<MapScene*>(this->getParent())->_mapLayer->_collidable[a.x][a.y]=1;
+	log("%d", static_cast<MapScene*>(this->getParent())->_mapLayer->_collidable[a.x][a.y]);
 										   /*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createProducer(Point tpos) {
@@ -102,7 +106,7 @@ void MenuLayer::createProducer(Point tpos) {
 	Producer* producer = new Producer();
 	Building::create(producer, "Producer.png");     //此处需要图片——大兵图片
 													//this->addChild(barrack);
-	static_cast<MapScene*>(this->getParent())->map->addChild(producer, BUILDING_LAYEER_LVL);
+	static_cast<MapScene*>(this->getParent())->_mapLayer->map->addChild(producer, BUILDING_LAYEER_LVL);
 	producer->setPosition(tpos);            //setPosition
 	producer->showUI();
 											/*m_BuildingList.pushBack(barrack);*/
@@ -112,7 +116,7 @@ void MenuLayer::createStope(Point tpos) {
 	Stope* stope = new Stope();
 	Building::create(stope, "Stope.png");     //此处需要图片——大兵图片
 												   //this->addChild(barrack);
-	static_cast<MapScene*>(this->getParent())->map->addChild(stope, BUILDING_LAYEER_LVL);
+	static_cast<MapScene*>(this->getParent())->_mapLayer->map->addChild(stope, BUILDING_LAYEER_LVL);
 	stope->setPosition(tpos);            //setPosition
 	stope->showUI();
 										   /*m_BuildingList.pushBack(barrack);*/
@@ -122,7 +126,7 @@ void MenuLayer::createWarFactory(Point tpos) {
 	WarFactory* warfac = new WarFactory();
 	Building::create(warfac, "WarFactory.png");     //此处需要图片——大兵图片
 											  //this->addChild(barrack);
-	static_cast<MapScene*>(this->getParent())->map->addChild(warfac, BUILDING_LAYEER_LVL);
+	static_cast<MapScene*>(this->getParent())->_mapLayer->map->addChild(warfac, BUILDING_LAYEER_LVL);
 	warfac->setPosition(tpos);            //setPosition
 	warfac->showUI();
 										 /*m_BuildingList.pushBack(barrack);*/

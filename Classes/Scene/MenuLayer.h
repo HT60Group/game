@@ -1,3 +1,5 @@
+#ifndef _MenuLayer_H_
+#define _MenuLayer_H_
 #include"MapScene.h"
 #include "cocos2d.h"
 #include"cocos-ext.h"
@@ -28,19 +30,14 @@ public:
 	LayerColor* menuLayer;
 	void setMouseController();
 	void Controller();
-	//void OnClick_producer(cocos2d::ui::Widget* UI_menu );
 	void createBarrack(Point tpos);
 	void createProducer(Point tpos);
 	void createStope(Point tpos);
 	void createWarFactory(Point tpos);
-	//void barrackbutton(Ref* pSender, Widget::TouchEventType type);
-	//void barrackbutton(Ref* pSender,Button* barrack);
-	/*MenuItemImage* button_producer;
-	MenuItemImage* button_barracks;
-	MenuItemImage* button_Stope;
-	MenuItemImage* button_WarFactory;*/
+
 	void onTouchMoved(Touch* touch, Event* event);
 	bool onTouchBegan(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touch, Event* event);
 	std::string message;
 };
+#endif
