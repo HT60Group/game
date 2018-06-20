@@ -1,5 +1,7 @@
 #include "MenuLayer.h"
-TMXTiledMap* MapLayer::map;
+#include"MapLayer.h"
+//
+
 bool MenuLayer::init()
 {
 	auto _visibleSize = Director::getInstance()->getVisibleSize();//屏幕大小
@@ -69,10 +71,10 @@ void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 {
 	auto target = static_cast<Sprite*>(event->getCurrentTarget());
 	Point tpos = Director::getInstance()->convertToGL(touch->getLocationInView());
-	auto _currentPos = static_cast<MapLayer*>(static_cast<MapScene*>(this->getParent())->_mapLayer)->map->getPosition();//地图的绝对坐标
+	//auto _currentPos = static_cast<MapLayer*>(static_cast<MapScene*>(this->getParent())->_mapLayer)->map->getPosition();//地图的绝对坐标
 
-	tpos.x -= _currentPos.x;
-	tpos.y -= _currentPos.y;
+	//tpos.x -= _currentPos.x;
+	//tpos.y -= _currentPos.y;
 	if (message == "barrack") {
 	    createBarrack(tpos);
 	}
@@ -95,12 +97,15 @@ void MenuLayer::createBarrack(Point tpos) {
 	auto tmap = MapLayer::map;
 	//tmap->addChild(barrack, BUILDING_LAYEER_LVL);
 	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
-	barrack->setPosition(tpos);            //setPosition
+	barrack->setPosition(tpos);    //setPosition
+	log("tpos=(%f,%f)", tpos.x, tpos.y);
 	barrack->showUI();
-	Vec2 a = static_cast<MapScene*>(this->getParent())->_mapLayer->ConvertToMap(tpos.x, tpos.y, tmap);
+	/*Vec2 a = static_cast<MapScene*>(this->getParent())->_mapLayer->ConvertToMap(tpos.x, tpos.y, tmap);*/
+	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
+	log("tpos2=(%f,%f)", tpos.x, tpos.y);
 	log("a(%f,%f)", a.x, a.y);
-	static_cast<MapScene*>(this->getParent())->_mapLayer->_collidable[a.x][a.y]=1;
-	log("%d", static_cast<MapScene*>(this->getParent())->_mapLayer->_collidable[a.x][a.y]);
+	static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x,a.y,1);
+	/*log("%d", static_cast<MapScene*>(this->getParent())->_mapLayer->_collidable[a.x][a.y]);*/
 										   /*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createProducer(Point tpos) {
@@ -108,6 +113,9 @@ void MenuLayer::createProducer(Point tpos) {
 	Producer* producer = new Producer();
 	Building::create(producer, "Producer.png");     //此处需要图片——大兵图片
 													//this->addChild(barrack);
+	auto _currentPos = static_cast<MapLayer*>(static_cast<MapScene*>(this->getParent())->_mapLayer)->map->getPosition();//地图的绝对坐标
+	tpos.x -= _currentPos.x;
+	tpos.y -= _currentPos.y;
 	static_cast<MapScene*>(this->getParent())->_mapLayer->map->addChild(producer, BUILDING_LAYEER_LVL);
 	producer->setPosition(tpos);            //setPosition
 	producer->showUI();

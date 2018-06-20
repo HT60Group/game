@@ -16,6 +16,6 @@ private:
 	void loadConfig();
 protected:
 	BuildingManager* m_BuildingMgr;
-	AIManager* m_AIMgr;
+	/*AIManager* m_AIMgr;*/
 };
 #endif

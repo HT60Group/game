@@ -14,9 +14,9 @@ bool BattleScene::init() {
 	m_BuildingMgr = BuildingManager::create();
 	this->addChild(m_BuildingMgr, 1);
 
-	m_AIMgr = AIManager::createAIManager();
-	this->addChild(m_AIMgr, 3);
-
+	/*m_AIMgr = AIManager::createAIManager();*/
+	/*this->addChild(m_AIMgr, 3);
+*/
 	return true;
 }
 

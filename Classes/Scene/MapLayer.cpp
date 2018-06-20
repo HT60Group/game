@@ -1,5 +1,5 @@
 #include"MapLayer.h"
-
+TMXTiledMap* MapLayer::map;
 bool MapLayer::init()
 {
 	if(!Layer::init())
@@ -131,7 +131,7 @@ bool MapLayer::isCollidable(Point pos)
 	}
 	return true;
 }
-Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
+ Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
 {
 	int tilewidth = map->getTileSize().width;
 	int tileheight = map->getTileSize().height;//ÕıÈ·

@@ -21,7 +21,9 @@ bool MapScene::init() {
 	//map = _mapLayer->map;
 	MenuLayer* _menulayer = MenuLayer::create();
 	this->addChild(_menulayer);
-	
+	SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+	frameCache->addSpriteFramesWithFile("Warrior.plist", "Warrior.png");
+
 	
 	return true;
 }
