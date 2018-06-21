@@ -24,8 +24,9 @@ class Astar
 {
 public:
 	void InitAstar(std::vector<std::vector<int>> &_maze);
-	std::list<cocos2d::Point > GetPath(cocos2d::Point &start,cocos2d::Point &end, bool isIgnoreCorner);
-
+	std::list<Pos > GetPath(Pos &start,Pos &end, bool isIgnoreCorner);
+	static std::list<cocos2d::Point> 
+		Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze);
 private:
 	Pos * findPath(Pos &startPoint, Pos &endPoint, bool isIgnoreCorner);
 	std::vector<Pos *> getSurroundPoints(const Pos *point, bool isIgnoreCorner) const;

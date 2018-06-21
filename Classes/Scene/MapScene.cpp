@@ -25,6 +25,7 @@ bool MapScene::init() {
 	frameCache->addSpriteFramesWithFile("Warrior.plist", "Warrior.png");
 
 	
+	
 	return true;
 }
 

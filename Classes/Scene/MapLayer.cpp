@@ -1,4 +1,5 @@
 #include"MapLayer.h"
+#include"Astar.h"
 TMXTiledMap* MapLayer::map;
 bool MapLayer::init()
 {
@@ -7,8 +8,19 @@ bool MapLayer::init()
 		return false;
 	}
 	map = TMXTiledMap::create("gandw.tmx");
+/*
+	Sprite* sprite = Sprite::create("tank_.png");
+	sprite->setPosition(Point(1600, 500));
+	map->addChild(sprite,1);*/
+	//¼ÓÔØÍ¼Æ¬Ö¡µ½»º´æ³Ø
+	SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
+	frameCache->addSpriteFramesWithFile("bingzhong.plist", "bingzhong.png");
+
+
 
 	this->addChild(map);//Ìí¼ÓµØÍ¼
+
+	
 
 	this->fill_collidable();
 	this->SetMouseController();
@@ -50,10 +62,13 @@ void MapLayer::ControllerUpdate(float dt)
 		log("pos_ti (%.2f,%.2f)", TiledPos.x, TiledPos.y);
 		int posx = TiledPos.x;
 		int posy = TiledPos.y;
-		if (posx >= 0 && posx<75 && posy >= 0 && posy<75)
+	/*	if (posx >= 0 && posx<75 && posy >= 0 && posy<75)
 		{
 			log("%d", _collidable[posx][posy]);
 		}
+		Point T_Gpos = MapLayer::ConvertToScene(posx, posy, MapLayer::map);
+		log("T_Gpos(%f,%f)", T_Gpos.x, T_Gpos.y);*/
+		/*Astar::Findway(,_mousePosition,_collidable)*/
 	}
 	if (_mousePosition.x < (_visibleSize.width / 60) && !_isClick)
 	{
@@ -169,7 +184,10 @@ bool MapLayer::isCollidable(Point pos)
 Vec2 MapLayer::ConvertToScene(int x, int y,TMXTiledMap* map)
 {
 	float tilewidth = map->getTileSize().width;
+	
 	float tileheight = map->getTileSize().height;
+	/*float tilewidth = 64;
+	float tileheight = 32;*/
 
 	int mapOrginX = map->getPosition().x + map->getContentSize().width / 2;
 	int mapOrginY = map->getPosition().y + map->getContentSize().height;

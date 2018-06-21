@@ -1,6 +1,7 @@
 #include <math.h>  
 #include "Astar.h"  
 #include"cocos2d.h"
+#include"MapLayer.h"
 //初始化碰撞
 void Astar::InitAstar(std::vector<std::vector<int>> &_maze)
 {
@@ -94,17 +95,17 @@ Pos *Astar::findPath(Pos &startPoint, Pos &endPoint, bool isIgnoreCorner)
 	return NULL;
 }
 
-std::list<cocos2d::Point > Astar::GetPath(cocos2d::Point &start, cocos2d::Point &end, bool isIgnoreCorner)
+std::list<Pos > Astar::GetPath(Pos &start, Pos &end, bool isIgnoreCorner)
 {
 	Pos startPoint(start.x,start.y);
 	Pos endPoint(end.x, end.y);
 	Pos *result = findPath(startPoint, endPoint, isIgnoreCorner);
-	std::list<cocos2d::Point> path;
-	cocos2d::Point temp;
+	std::list<Pos> path;
+
 	//返回路径，如果没找到路径，返回空链表  
 	while (result)
 	{
-		temp = cocos2d::Point(result->x, result->y);
+		Pos temp = Pos(result->x, result->y);
 		path.push_front(temp);
 		result = result->parent;
 	}
@@ -154,10 +155,13 @@ std::vector<Pos *> Astar::getSurroundPoints(const Pos *point, bool isIgnoreCorne
 
 	return surroundPoints;
 }
-std::list<cocos2d::Point> Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze)
+std::list<Pos> Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze)
 {
 	Astar astar;
 	astar.InitAstar(_maze);
-	return astar.GetPath(start, end, false);
+	
+	Pos start_tiled ( MapLayer::ConvertToMap(start.x, start.y, MapLayer::map).x, MapLayer::ConvertToMap(start.x, start.y, MapLayer::map).y);
+	Pos end_tiled(MapLayer::ConvertToMap(end.x, end.y, MapLayer::map).x, MapLayer::ConvertToMap(end.x, end.y, MapLayer::map).y);
+	return astar.GetPath(start_tiled, end_tiled, false);
 
 }

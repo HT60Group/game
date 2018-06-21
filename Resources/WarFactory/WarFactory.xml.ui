@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<UIProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectDir>C:\Users\asus\cocosgame\HelloWorld\Resources\WarFactory</ProjectDir>
+  <Version>1.4.0.1</Version>
+  <Resources>C:\Users\asus\cocosgame\HelloWorld\Resources\WarFactory\Resources</Resources>
+  <Name>WarFactory</Name>
+  <JsonFileName>WarFactory.json</JsonFileName>
+  <JsonFolder>C:\Users\asus\cocosgame\HelloWorld\Resources\WarFactory\Json</JsonFolder>
+  <JsonList>
+    <string>WarFactory_1.json</string>
+  </JsonList>
+  <CanvasSize>
+    <Width>0</Width>
+    <Height>0</Height>
+  </CanvasSize>
+  <filePath>C:\Users\asus\cocosgame\HelloWorld\Resources\WarFactory\WarFactory.xml.ui</filePath>
+  <ProjectType>UIProject</ProjectType>
+  <ResRelativePath />
+  <imageFileList>
+    <string>WarFactory0.plist</string>
+  </imageFileList>
+  <imagePngList>
+    <string>WarFactory0.png</string>
+  </imagePngList>
+  <JsonSuffix>.json</JsonSuffix>
+  <CurrentUIJson>WarFactory_1.json</CurrentUIJson>
+</UIProject>

@@ -95,9 +95,12 @@ void MenuLayer::createBarrack(Point tpos) {
 												   //this->addChild(barrack);
 	//auto tmap = static_cast<MapScene*>(this->getParent())->_mapLayer->map;
 	auto tmap = MapLayer::map;
+	auto currentPos = tmap->getPosition();
+	auto pos = tpos;
+	pos -= currentPos;
 	//tmap->addChild(barrack, BUILDING_LAYEER_LVL);
 	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
-	barrack->setPosition(tpos);    //setPosition
+	barrack->setPosition(pos);    //setPosition
 	log("tpos=(%f,%f)", tpos.x, tpos.y);
 	barrack->showUI();
 	/*Vec2 a = static_cast<MapScene*>(this->getParent())->_mapLayer->ConvertToMap(tpos.x, tpos.y, tmap);*/
