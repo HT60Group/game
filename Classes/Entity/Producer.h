@@ -9,8 +9,8 @@ class Producer :public Building
 public:
 	CREATE_FUNC(Producer);
 	virtual bool init();
-
-	virtual void readJson();
+	virtual void showUI();
+	//virtual void readJson();
 
 protected:
 	void CreateElectricity();             //²úÉúµç

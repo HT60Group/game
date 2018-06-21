@@ -2,47 +2,57 @@
 #define _Building_H_
 
 #include"cocos2d.h"
-#include "json/json.h"
+#include "Entity/Entity.h"
+//#include "json/json.h"
+//#include "AIManager/AIManager.h"
+#include"cocos-ext.h"
+#include"ui/cocosGUI.h"
+#include"editor-support/cocostudio/CCSGUIReader.h"
 
+USING_NS_CC_EXT;
+using namespace cocos2d::extension;
+using namespace cocos2d::ui;
+using namespace cocostudio;
 using namespace cocos2d;
-enum EnumState {
-	enAlive,            //存活状态
-	enCreate,           //建造状态————不一定要有
-	enCreateSoldiers,   //造兵状态
-};
-class Building :public Sprite
+
+
+class Building :public Entity
 {
 public:
+	Building();
+	~Building();
 	CREATE_FUNC(Building);
 	virtual bool init();
+	virtual void showUI();
+	////读取配置文件
+	//virtual void readJson();
 
-	EnumState enCurState;       //当前状态
+	//建造
+	static Building* createWithSpriteFrameName(Building* sprite, const char *filename);
 
-	bool isAlive();             //判断是否存活
-	bool isCreateSoldiers();    //判断是否能够造兵
+	bool isClickMe(Point pos);
 
-	void changeState(EnumState enState);   //切换状态
+	virtual void hurt(int x);
+	virtual bool isDeath();
 
-	virtual void update(float dt);
-
-	//接收消息的回调函数
-	virtual void getMsg(float dt);
-	//发送消息
-	virtual void sendMsg(float dt);
-
-	//读取配置文件
-	virtual void readJson();
-
-	static Building* create(Building* sprite, const char *filename);
-
-
+	bool isBroken;             // 是否被摧毁
+	Sprite* normal;            // 正常图片
 protected:
 	int Hp;                  //血量
+	int totalHp;               // 总生命值
 	double sizeX;            //大小——长
 	double sizeY;            //大小——宽
 	int Costime;             //建筑花费的时间
 	int CostMine;            //建造花费的矿
 	int CostElec;            //建造花费的电
+
+	int index;                 // 内存中的数组下标
+	int id;                    // 编号
+	int BuildingID;            // 建筑编号ID
+	//virtual void ondied() override;
+	//virtual void onHurt(int iHurtValue) override;
+	LoadingBar* hpBar;         // 血条
+	Entity* target;
 };
 
 #endif

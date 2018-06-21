@@ -5,6 +5,7 @@
 #include"cocos-ext.h"
 #include"ui/cocosGUI.h"
 #include"editor-support/cocostudio/CCSGUIReader.h"
+#include "scene/MapScene.h"
 
 USING_NS_CC_EXT;
 using namespace cocos2d::extension;

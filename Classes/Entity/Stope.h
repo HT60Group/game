@@ -9,8 +9,8 @@ class Stope :public Building
 public:
 	CREATE_FUNC(Stope);
 	virtual bool init();
-
-	virtual void readJson();
+	virtual void showUI();
+	//virtual void readJson();
 
 protected:
 	void CreateMine();             //²úÉú¿ó
