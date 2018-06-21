@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "Scene/MusicSetting.h"
 #include "Scene/InputName.h"
+#include "Scene/MapScene.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -29,6 +30,7 @@ bool HelloWorld::init()
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("HtStarCOpen_1.ExportJson");
 	UI->setPosition(Point(0, 0));
 	this->addChild(UI);
+
 
 	// button 
 	Button* START = (Button*)Helper::seekWidgetByName(UI, "START");
@@ -61,7 +63,7 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::buttonTurnToSetting(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
-	auto scene = MusicSetting::createScene();
+	auto scene = MapScene::createScene();
 	Director::getInstance()->replaceScene(scene);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
