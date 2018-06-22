@@ -30,13 +30,13 @@ public:
 	//建造
 	static Building* createWithSpriteFrameName(Building* sprite, const char *filename);
 
-	bool isClickMe(Point pos);
-
 	virtual void hurt(int x);
 	virtual bool isDeath();
 
 	bool isBroken;             // 是否被摧毁
 	Sprite* normal;            // 正常图片
+
+	Point getScenePosition();
 protected:
 	int Hp;                  //血量
 	int totalHp;               // 总生命值

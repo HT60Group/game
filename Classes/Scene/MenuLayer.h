@@ -33,8 +33,16 @@ public:
 	void createStope(Point tpos);
 	void createWarFactory(Point tpos);
 
+	void createSoldier(Point tpos);
+	void createScv(Point tpos);
+	void createDog(Point tpos);
+	void createSniper(Point tpos);
+	void createTank(Point tpos);
 
 	void CreateBarrackLayer();
+	void CreateBaseLayer();
+	void CreateWarFactoryLayer();
+
 	void onTouchMoved(Touch* touch, Event* event);
 	bool onTouchBegan(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touch, Event* event);

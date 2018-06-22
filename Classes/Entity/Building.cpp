@@ -1,4 +1,5 @@
 #include "Building.h"
+#include "Scene\MapLayer.h"
 
 Building::Building(){}
 Building::~Building() {}
@@ -70,16 +71,11 @@ void Building::hurt(int x)
 	}
 }
 
-bool Building::isClickMe(Point pos) {
-	Size size = getSprite()->getContentSize();
-	Point borderPos = getPosition();
-
-	Point srcPos = Point(borderPos.x - size.width / 2, borderPos.y + size.height / 2);
-	Point destPos = Point(borderPos.x + size.width / 2, borderPos.y - size.height / 2);
-
-	if (pos.x >= srcPos.x && pos.x <= destPos.x &&pos.y <= srcPos.y &&pos.y >= destPos.y) {
-		return true;
-	}
-	return false;
+Point Building::getScenePosition()
+{
+	auto tmap = MapLayer::map;
+	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+	Point tpos = this->getPosition();
+	tpos += _currentPos;
+	return tpos;
 }
- 
