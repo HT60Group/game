@@ -7,6 +7,8 @@
 #include"Entity/Producer.h"
 #include "MapLayer.h"
 #include "AIManager\BuildingManager.h"
+
+#include "AIManager.h"
 #include "Army/Soldier.h"
 #include "Army\Army.h"
 #include "Army\Dog.h"
@@ -321,7 +323,7 @@ void MenuLayer::createSoldier(Point tpos) {
 	tmap->addChild(soldier_1, 19);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-
+	AIManager::m_armyVec.push_back(soldier_1);
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -340,7 +342,7 @@ void MenuLayer::createDog(Point tpos) {
 	tmap->addChild(soldier_1, 19);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-
+	AIManager::m_armyVec.push_back(soldier_1);
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -358,7 +360,7 @@ void MenuLayer::createSniper(Point tpos) {
 	tmap->addChild(soldier_1, 19);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-
+	AIManager::m_armyVec.push_back(soldier_1);
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -394,11 +396,10 @@ void MenuLayer::createScv(Point tpos) {
 																   //Point mypos;
 																   //mypos.x = tpos.x - _currentPos.x;
 																   //mypos.y = tpos.y - _currentPos.y;
-
 	tmap->addChild(soldier_1, 19);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-
+	AIManager::m_armyVec.push_back(soldier_1);
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -433,11 +434,10 @@ void MenuLayer::createTank(Point tpos) {
 															   //Point mypos;
 															   //mypos.x = tpos.x - _currentPos.x;
 															   //mypos.y = tpos.y - _currentPos.y;
-
 	tmap->addChild(soldier_1, 19);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-
+	AIManager::m_armyVec.push_back(soldier_1);
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }

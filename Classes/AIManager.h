@@ -10,6 +10,10 @@ public:
 	virtual bool init();
 	void selectionController();
 	
+
+	static std::vector<Army*> m_armyVec;
+	static std::vector<Army*> m_enemyArmyVec;
+
 	/*LayerColor* layer;*/
 private:
 	Point mousePos_began = cocos2d::Point(0,0);
@@ -17,6 +21,5 @@ private:
 	Point mousePos_ended = cocos2d::Point(0, 0);
 	LayerColor* selection;
 	static std::vector<Army*> army_selected;
-	
 	
 };

@@ -55,3 +55,7 @@ void AIManager::selectionController()
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener,this);
 }
+
+
+std::vector<Army*> AIManager::m_armyVec;
+std::vector<Army*> AIManager::m_enemyArmyVec;
