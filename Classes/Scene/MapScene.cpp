@@ -3,7 +3,7 @@
 #include "Scene/MenuLayer.h"
 #include "Scene/TollgateDataLayer.h"
 #include "AIManager\BuildingManager.h"
-
+#include"AIManager.h"
 Scene* MapScene::createScene() {
 	auto scene = Scene::create();
 	auto layer = MapScene::create();
@@ -25,6 +25,8 @@ bool MapScene::init() {
 	SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
 	frameCache->addSpriteFramesWithFile("Warrior.plist", "Warrior.png");
 	
+	auto aimanager = AIManager::create();
+	this->addChild(aimanager);
 	return true;
 }
 MenuLayer* MapScene::GetMenuLayer()

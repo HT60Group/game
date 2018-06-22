@@ -1,7 +1,7 @@
 #pragma once
 #include"cocos2d.h"
 #include<vector>
-#include"Entity/Army.h"
+#include"Army/Army.h"
 using namespace cocos2d;
 class AIManager :public cocos2d::Layer
 {

@@ -131,7 +131,9 @@ void MenuLayer::createBarrack(Point tpos) {
 	barrack->setPosition(mypos);    //setPosition
 	barrack->showUI();
 	buildingMgr->SetBarrackController(barrack);
-	
+
+	BuildingManager::m_buildingVec.push_back(barrack);
+
 	log("getScenePosition(%f,%f)", barrack->getScenePosition().x, barrack->getScenePosition().y);
 	for (int i = -2; i < 3; i++)
 	{
@@ -164,6 +166,7 @@ void MenuLayer::createProducer(Point tpos) {
 	tmap->addChild(producer, 20);
 	producer->setPosition(mypos);    //setPosition
 	producer->showUI();
+	BuildingManager::m_buildingVec.push_back(producer);
 
 	for (int i = -2; i < 3; i++)
 	{
@@ -197,6 +200,7 @@ void MenuLayer::createStope(Point tpos) {
 	tmap->addChild(stope, 20);
 	stope->setPosition(mypos);    //setPosition
 	stope->showUI();
+	BuildingManager::m_buildingVec.push_back(stope);
 
 	for (int i = -2; i < 3; i++)
 	{
@@ -231,6 +235,7 @@ void MenuLayer::createWarFactory(Point tpos) {
 	warf->setPosition(mypos);    //setPosition
 	warf->showUI();
 	buildingMgr->SetBarrackController(warf);
+	BuildingManager::m_buildingVec.push_back(warf);
 
 	for (int i = -2; i < 3; i++)
 	{

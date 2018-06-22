@@ -27,10 +27,9 @@ public:
 
 	cocos2d::TMXTiledMap* GetMap();
 
-	static std::vector<Building*>  _buildingVec;
-	static std::vector<Building*> _enemyBuildingVec;
+	static std::vector<Building*> m_buildingVec;
+	static std::vector<Building*> m_enemyBuildingVec;
 protected:
-	Vector<Building*> m_BuildingList;
 
 	std::vector<std::vector<int>> _collidable;
 	Building* findClickBuilding(Point pos);

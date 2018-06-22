@@ -110,5 +110,5 @@ MenuLayer* BuildingManager::GetMenuLayer()
 	return 	MapScene::GetMenuLayer();
 }
 
-std::vector<Building*> BuildingManager::_buildingVec;
-std::vector<Building*> BuildingManager::_enemyBuildingVec;
+std::vector<Building*> BuildingManager::m_buildingVec;
+std::vector<Building*> BuildingManager::m_enemyBuildingVec;

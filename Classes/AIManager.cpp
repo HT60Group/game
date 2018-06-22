@@ -50,7 +50,7 @@ void AIManager::selectionController()
 		log("ended=(%f,%f)", mousePos_ended.x, mousePos_ended.y);
 		if (mousePos_began.x < (_visibleSize.width * 5 / 6))
 		{
-			selection->removeFromParent();
+			selection->setContentSize(CCSize(0,0));
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener,this);
