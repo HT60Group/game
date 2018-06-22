@@ -51,7 +51,7 @@ void BuildingManager::SetBarrackController(Building* building)
 		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
 		{
 			log("OK");
-			GetMenuLayer()->CreateBarrackLayer();
+			GetMenuLayer()->CreateBarrackLayer(building);
 			return true;
 		}
 		return false;
@@ -74,7 +74,7 @@ void BuildingManager::SetBaseController(Building* building)
 		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
 		{
 			log("OK");
-			GetMenuLayer()->CreateBaseLayer();
+			GetMenuLayer()->CreateBaseLayer(building);
 			return true;
 		}
 		return false;
@@ -85,10 +85,9 @@ void BuildingManager::SetBaseController(Building* building)
 void BuildingManager::SetWarFactoryController(Building* building)
 {
 	auto listener = EventListenerTouchOneByOne::create();
-	log("using setWarf");
 	listener->onTouchBegan = [&, building](Touch *touch, Event *event)
 	{
-		log("target");
+		log("using setWarf");
 		auto tmap = MapLayer::map;
 		//auto _currentPos = tmap->getPosition();//地图的绝对坐标
 
@@ -97,8 +96,7 @@ void BuildingManager::SetWarFactoryController(Building* building)
 		auto target1 = static_cast<Building*>(event->getCurrentTarget());
 		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
 		{
-			log("OK");
-			GetMenuLayer()->CreateWarFactoryLayer();
+			GetMenuLayer()->CreateWarFactoryLayer(building);
 			return true;
 		}
 		return false;

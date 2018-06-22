@@ -25,6 +25,7 @@ bool MenuLayer::init()
 
 	buildingMgr = BuildingManager::createBuildingMgr();
 	tmap->addChild(buildingMgr);
+
 																  //设置菜单层
 	menuLayer = LayerColor::create(Color4B(225, 105, 180, 80));
 	menuLayer->setPosition(_visibleSize.width * 5 / 6, 0);
@@ -40,6 +41,8 @@ bool MenuLayer::init()
 	UIMenu->setPosition(Point(0, 0));
 
 	this->addChild(UIMenu, UI_LAYEER_LVL);
+
+	createBase(Point(600, 1300));
 
 	Button* barrack = (Button*)Helper::seekWidgetByName(UIMenu, "Button_barracks");
 	barrack->setTouchEnabled(false);
@@ -70,17 +73,17 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 	if (rect.containsPoint(pos))
 	{
 		log("%f", touch->getLocation().y);
-		if (touch->getLocation().y > 700)
+		if (touch->getLocation().y > 700 && touch->getLocation().y<800)
 		{
 			message = "barrack";
 		}
-		else if(touch->getLocation().y>500){
+		else if(touch->getLocation().y>500 && touch->getLocation().y<600){
 			message = "producer";
 		}
-		else if(touch->getLocation().y>270){
+		else if(touch->getLocation().y>270 && touch->getLocation().y<370){
 			message = "stope";
 		}
-		else {
+		else if(touch->getLocation().y>75 && touch->getLocation().y<175){
 			message = "warfac";
 		}
 		return true;
@@ -129,11 +132,12 @@ void MenuLayer::createBarrack(Point tpos) {
 	mypos.x=tpos.x - _currentPos.x;
 	mypos.y=tpos.y - _currentPos.y;
 
-	tmap->addChild(barrack, 20);
+	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
 	barrack->setPosition(mypos);    //setPosition
 	barrack->showUI();
 	buildingMgr->SetBarrackController(barrack);
 
+	//add m_buildingVec
 	BuildingManager::m_buildingVec.push_back(barrack);
 
 	log("getScenePosition(%f,%f)", barrack->getScenePosition().x, barrack->getScenePosition().y);
@@ -144,7 +148,6 @@ void MenuLayer::createBarrack(Point tpos) {
 			static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x+i, a.y+j, 1);
 		}
 	}
-										   /*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createProducer(Point tpos) {
 	auto tmap = MapLayer::map;
@@ -165,7 +168,7 @@ void MenuLayer::createProducer(Point tpos) {
 	mypos.x = tpos.x - _currentPos.x;
 	mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(producer, 20);
+	tmap->addChild(producer, BUILDING_LAYEER_LVL);
 	producer->setPosition(mypos);    //setPosition
 	producer->showUI();
 	BuildingManager::m_buildingVec.push_back(producer);
@@ -199,7 +202,7 @@ void MenuLayer::createStope(Point tpos) {
 	mypos.x = tpos.x - _currentPos.x;
 	mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(stope, 20);
+	tmap->addChild(stope, BUILDING_LAYEER_LVL);
 	stope->setPosition(mypos);    //setPosition
 	stope->showUI();
 	BuildingManager::m_buildingVec.push_back(stope);
@@ -233,10 +236,10 @@ void MenuLayer::createWarFactory(Point tpos) {
 	mypos.x = tpos.x - _currentPos.x;
 	mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(warf, 20);
+	tmap->addChild(warf, BUILDING_LAYEER_LVL);
 	warf->setPosition(mypos);    //setPosition
 	warf->showUI();
-	buildingMgr->SetBarrackController(warf);
+	buildingMgr->SetWarFactoryController(warf);
 	BuildingManager::m_buildingVec.push_back(warf);
 
 	for (int i = -2; i < 3; i++)
@@ -248,8 +251,46 @@ void MenuLayer::createWarFactory(Point tpos) {
 	}
 										 /*m_BuildingList.pushBack(barrack);*/
 }
- 
-void MenuLayer::CreateBarrackLayer()
+void MenuLayer::createBase(Point tpos) {
+	auto tmap = MapLayer::map;
+	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
+	log("tpos2=(%f,%f)", tpos.x, tpos.y);
+	log("a(%f,%f)", a.x, a.y);
+	//create Barrack
+	if (a.x > 74 || a.x < 0 || a.y>74 || a.y < 0)
+	{
+		return;
+	}
+
+	Base* warf = new Base();
+	Building::createWithSpriteFrameName(warf, "Base.png");     //此处需要图片——图片
+
+	Point mypos;
+	mypos.x = tpos.x - _currentPos.x;
+	mypos.y = tpos.y - _currentPos.y;
+
+	tmap->addChild(warf, BUILDING_LAYEER_LVL);
+	warf->setPosition(mypos);    //setPosition
+	warf->showUI();
+
+	//set BaseController
+	buildingMgr->SetBaseController(warf);
+
+	//add m_buildingVec
+	BuildingManager::m_buildingVec.push_back(warf);
+
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x + i, a.y + j, 1);
+		}
+	}
+	/*m_BuildingList.pushBack(barrack);*/
+}
+
+void MenuLayer::CreateBarrackLayer(Building* building)
 {
 	//放置UI
 	//auto UI_menu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("BarrackUI/BarrackUI_1.ExportJson");
@@ -257,6 +298,7 @@ void MenuLayer::CreateBarrackLayer()
 	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("BarrackUI/BarrackUI_1.ExportJson");
 	UIMenu->setPosition(Point(0, 0));
 	this->addChild(UIMenu, UI_LAYEER_LVL+1);
+	log("barrackLayer");
 	Button* soldier = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Soldier");
 	soldier->setTouchEnabled(false);
 	Button* dog = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Dog");
@@ -265,7 +307,7 @@ void MenuLayer::CreateBarrackLayer()
 	sniper->setTouchEnabled(false);
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [&](Touch *touch, Event *event)
+	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
 	{
 		auto target = static_cast<Sprite*>(event->getCurrentTarget());
 		Point pos = target->convertToNodeSpace(touch->getLocation());
@@ -290,18 +332,22 @@ void MenuLayer::CreateBarrackLayer()
 		return false;
 		return true;
 	};
-	listener->onTouchEnded= [&](Touch* touch, Event* event)
+	listener->onTouchEnded= [&,building](Touch* touch, Event* event)
 	{
 		auto target = static_cast<Sprite*>(event->getCurrentTarget());
 		Point tpos = Director::getInstance()->convertToGL(touch->getLocationInView());
+		Point barrackPos = building->getPosition();
+		barrackPos.x += 70;
+		barrackPos.y -= 70;
+
 		if (message == "soldier") {
-			createSoldier(Point(600,600));
+			createSoldier(barrackPos);
 		}
 		if (message == "dog") {
-			createDog(Point(600, 600));
+			createDog(barrackPos);
 		}
 		if (message == "sniper") {
-			createSniper(Point(600, 600));
+			createSniper(barrackPos);
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, soldier);
@@ -320,7 +366,7 @@ void MenuLayer::createSoldier(Point tpos) {
 	//mypos.x = tpos.x - _currentPos.x;
 	//mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(soldier_1, 19);
+	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
 	AIManager::m_armyVec.push_back(soldier_1);
@@ -339,7 +385,7 @@ void MenuLayer::createDog(Point tpos) {
 																   //mypos.x = tpos.x - _currentPos.x;
 																   //mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(soldier_1, 19);
+	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
 	AIManager::m_armyVec.push_back(soldier_1);
@@ -357,7 +403,7 @@ void MenuLayer::createSniper(Point tpos) {
 															   //mypos.x = tpos.x - _currentPos.x;
 															   //mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(soldier_1, 19);
+	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
 	AIManager::m_armyVec.push_back(soldier_1);
@@ -365,7 +411,7 @@ void MenuLayer::createSniper(Point tpos) {
 	/*m_BuildingList.pushBack(barrack);*/
 }
 
-void MenuLayer::CreateBaseLayer()
+void MenuLayer::CreateBaseLayer(Building* building)
 {
 	//放置UI
 	//auto UI_menu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("BarrackUI/BarrackUI_1.ExportJson");
@@ -378,9 +424,13 @@ void MenuLayer::CreateBaseLayer()
 	scv->setTouchEnabled(false);
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [&](Touch *touch, Event *event)
+	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
 	{
-		createScv(Point(600, 600));
+		Point scvPos = building->getPosition();
+		scvPos.x += 70;
+		scvPos.y -= 70;
+
+		createScv(scvPos);
 		return true;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, scv);
@@ -396,7 +446,7 @@ void MenuLayer::createScv(Point tpos) {
 																   //Point mypos;
 																   //mypos.x = tpos.x - _currentPos.x;
 																   //mypos.y = tpos.y - _currentPos.y;
-	tmap->addChild(soldier_1, 19);
+	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
 	AIManager::m_armyVec.push_back(soldier_1);
@@ -404,21 +454,24 @@ void MenuLayer::createScv(Point tpos) {
 	/*m_BuildingList.pushBack(barrack);*/
 }
 
-void MenuLayer::CreateWarFactoryLayer()
+void MenuLayer::CreateWarFactoryLayer(Building* building)
 {
 	//放置UI
 	this->removeChild(UIMenu);
-	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("WarFactoryUI/WarFactoryUI_1.ExportJson");
+	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("WarFactory/WarFactory_1.ExportJson");
 	UIMenu->setPosition(Point(0, 0));
 	this->addChild(UIMenu, UI_LAYEER_LVL + 1);
-
+	log("WarfacLayer");
 	Button* tank = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Tank");
 	tank->setTouchEnabled(false);
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [&](Touch *touch, Event *event)
-	{
-		createTank(Point(600, 600));
+	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
+	{	
+		Point warfkPos = building->getPosition();
+		warfkPos.x += 70;
+		warfkPos.y -= 70;
+		createTank(warfkPos);
 		return true;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, tank);
@@ -434,7 +487,7 @@ void MenuLayer::createTank(Point tpos) {
 															   //Point mypos;
 															   //mypos.x = tpos.x - _currentPos.x;
 															   //mypos.y = tpos.y - _currentPos.y;
-	tmap->addChild(soldier_1, 19);
+	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
 	AIManager::m_armyVec.push_back(soldier_1);
