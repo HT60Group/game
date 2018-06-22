@@ -1,5 +1,6 @@
 #include"MapLayer.h"
 #include"Astar.h"
+#include"AIManager.h"
 TMXTiledMap* MapLayer::map;
 bool MapLayer::init()
 {
@@ -8,6 +9,8 @@ bool MapLayer::init()
 		return false;
 	}
 	map = TMXTiledMap::create("gandw.tmx");
+
+
 /*
 	Sprite* sprite = Sprite::create("tank_.png");
 	sprite->setPosition(Point(1600, 500));
@@ -40,6 +43,8 @@ void MapLayer::SetMouseController()
 	};
 	listener->onMouseUp = [&](Event*) {_isClick = false; };
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+
 }
 
 void MapLayer::ControllerUpdate(float dt)

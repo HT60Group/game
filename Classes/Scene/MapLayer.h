@@ -17,7 +17,9 @@ public:
 	bool isCollidable(Point);
 	void fill_collidable();
 	void FindWay();
+
 	static TMXTiledMap* map;
+
 	std::vector<std::vector<int> > Collidable() { return _collidable; };
 	void setcollidable(int x, int y, int i) { _collidable[x][y] = i; };
 	
