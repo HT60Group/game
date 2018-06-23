@@ -10,7 +10,7 @@ USING_NS_CC_EXT;
 using namespace cocos2d::extension;
 using namespace cocos2d::ui;
 using namespace cocostudio;
-class  InputName : public cocos2d::Scene
+class  InputName : public cocos2d::Layer
 {
 public:
 	static cocos2d::Scene* createScene();

@@ -279,7 +279,6 @@ void MenuLayer::createBase(Point tpos) {
 
 	//add m_buildingVec
 	BuildingManager::m_buildingVec.push_back(warf);
-
 	for (int i = -2; i < 3; i++)
 	{
 		for (int j = -2; j < 3; j++)
@@ -287,7 +286,6 @@ void MenuLayer::createBase(Point tpos) {
 			//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x + i, a.y + j, 1);
 		}
 	}
-	/*m_BuildingList.pushBack(barrack);*/
 }
 
 void MenuLayer::CreateBarrackLayer(Building* building)
@@ -305,6 +303,7 @@ void MenuLayer::CreateBarrackLayer(Building* building)
 	dog->setTouchEnabled(false);
 	Button* sniper = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Snipe");
 	sniper->setTouchEnabled(false);
+
 
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
@@ -330,7 +329,6 @@ void MenuLayer::CreateBarrackLayer(Building* building)
 			return true;
 		}
 		return false;
-		return true;
 	};
 	listener->onTouchEnded= [&,building](Touch* touch, Event* event)
 	{
@@ -416,24 +414,28 @@ void MenuLayer::CreateBaseLayer(Building* building)
 	//·ÅÖÃUI
 	//auto UI_menu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("BarrackUI/BarrackUI_1.ExportJson");
 	this->removeChild(UIMenu);
-	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("BaseUI/BaseUI_1.ExportJson");
+	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("menu_1.ExportJson");
 	UIMenu->setPosition(Point(0, 0));
 	this->addChild(UIMenu, UI_LAYEER_LVL + 1);
 
-	Button* scv = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Scv");
-	scv->setTouchEnabled(false);
+	Button* barrack = (Button*)Helper::seekWidgetByName(UIMenu, "Button_barracks");
+	barrack->setTouchEnabled(false);
+	Button* producer = (Button*)Helper::seekWidgetByName(UIMenu, "Button_producer");
+	producer->setTouchEnabled(false);
+	Button* stope = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Stope");
+	stope->setTouchEnabled(false);
+	Button* warfac = (Button*)Helper::seekWidgetByName(UIMenu, "Button_WarFactory");
+	warfac->setTouchEnabled(false);
 
 	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
-	{
-		Point scvPos = building->getPosition();
-		scvPos.x += 70;
-		scvPos.y -= 70;
+	listener->onTouchBegan = CC_CALLBACK_2(MenuLayer::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(MenuLayer::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(MenuLayer::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, barrack);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), producer);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), stope);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), warfac);
 
-		createScv(scvPos);
-		return true;
-	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, scv);
 }
 void MenuLayer::createScv(Point tpos) {
 	auto tmap = MapLayer::map;

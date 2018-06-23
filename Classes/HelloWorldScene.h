@@ -18,10 +18,13 @@ public:
     virtual bool init();
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	void buttonTurnToSetting(Ref* pSender);
+	//void menuCloseCallback();
+	void buttonTurnToSetting(cocos2d::Ref* pSender);
+	//void buttonTurnToSetting();
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+	int n = 0;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

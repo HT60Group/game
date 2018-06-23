@@ -4,13 +4,15 @@
 #include "NetMenu.h"
 USING_NS_CC;
 Scene* InputName::createScene() {
+	log("InputName\n\n\n\n");
 	auto scene = Scene::create();
 	auto layer = InputName::create();
 	scene->addChild(layer);
+
 	return scene;
 }
 bool InputName::init() {
-	if (!Scene::init()) { return false; }
+	if (!Layer::init()) { return false; }
 
 	//Scene
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("landin_1.ExportJson");

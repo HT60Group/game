@@ -41,7 +41,6 @@ void BuildingManager::SetBarrackController(Building* building)
 	log("using setBarrack");
 	listener->onTouchBegan = [&, building](Touch *touch, Event *event)
 	{
-		log("target");
 		auto tmap = MapLayer::map;
 		//auto _currentPos = tmap->getPosition();//地图的绝对坐标
 
@@ -107,6 +106,11 @@ MenuLayer* BuildingManager::GetMenuLayer()
 {
 	return 	MapScene::GetMenuLayer();
 }
+
+//void BuildingManager::DestoryBuilding(Building* building)
+//{
+//
+//}
 
 std::vector<Building*> BuildingManager::m_buildingVec;
 std::vector<Building*> BuildingManager::m_enemyBuildingVec;
