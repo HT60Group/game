@@ -1,4 +1,5 @@
 #include "MenuLayer.h"
+#include "Entity/Entity.h"
 #include"Entity/Building.h"
 #include"Entity/Base.h"
 #include"Entity/Barrack.h"
@@ -7,7 +8,6 @@
 #include"Entity/Producer.h"
 #include "MapLayer.h"
 #include "AIManager\BuildingManager.h"
-
 #include "AIManager.h"
 #include "Army/Soldier.h"
 #include "Army\Army.h"
@@ -42,7 +42,9 @@ bool MenuLayer::init()
 
 	this->addChild(UIMenu, UI_LAYEER_LVL);
 
-	createBase(Point(600, 1300));
+	createBase(Point(600, 1300),true);
+
+	createBase(Point(4200, 1300), false);
 
 	Button* barrack = (Button*)Helper::seekWidgetByName(UIMenu, "Button_barracks");
 	barrack->setTouchEnabled(false);
@@ -101,19 +103,19 @@ void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 	//tpos.x -= _currentPos.x;
 	//tpos.y -= _currentPos.y;
 	if (message == "barrack") {
-	    createBarrack(tpos);
+	    createBarrack(tpos,true);
 	}
 	if (message == "producer"){
-		createProducer(tpos);
+		createProducer(tpos,true);
 	}
 	if (message == "stope") {
-		createStope(tpos);
+		createStope(tpos,true);
 	}
 	if (message == "warfac") {
-		createWarFactory(tpos);
+		createWarFactory(tpos,true);
 	}
 }
-void MenuLayer::createBarrack(Point tpos) {
+void MenuLayer::createBarrack(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -135,10 +137,20 @@ void MenuLayer::createBarrack(Point tpos) {
 	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
 	barrack->setPosition(mypos);    //setPosition
 	barrack->showUI();
-	buildingMgr->SetBarrackController(barrack);
 
-	//add m_buildingVec
-	BuildingManager::m_buildingVec.push_back(barrack);
+	if (not_enemy)
+	{
+	    buildingMgr->SetBarrackController(barrack);
+		//add m_buildingVec
+		BuildingManager::m_buildingVec.push_back(barrack);
+		barrack->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		BuildingManager::m_enemyBuildingVec.push_back(barrack);
+		barrack->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+		barrack->is_Enemy();
+	}
 
 	log("getScenePosition(%f,%f)", barrack->getScenePosition().x, barrack->getScenePosition().y);
 	for (int i = -2; i < 3; i++)
@@ -149,7 +161,7 @@ void MenuLayer::createBarrack(Point tpos) {
 		}
 	}
 }
-void MenuLayer::createProducer(Point tpos) {
+void MenuLayer::createProducer(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -171,7 +183,19 @@ void MenuLayer::createProducer(Point tpos) {
 	tmap->addChild(producer, BUILDING_LAYEER_LVL);
 	producer->setPosition(mypos);    //setPosition
 	producer->showUI();
-	BuildingManager::m_buildingVec.push_back(producer);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		BuildingManager::m_buildingVec.push_back(producer);
+		producer->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		BuildingManager::m_enemyBuildingVec.push_back(producer);
+		producer->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+		producer->is_Enemy();
+	}
 
 	for (int i = -2; i < 3; i++)
 	{
@@ -182,7 +206,7 @@ void MenuLayer::createProducer(Point tpos) {
 	}
 											/*m_BuildingList.pushBack(barrack);*/
 }
-void MenuLayer::createStope(Point tpos) {
+void MenuLayer::createStope(Point tpos, bool not_enemy) {
 	//create Stope
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -205,7 +229,19 @@ void MenuLayer::createStope(Point tpos) {
 	tmap->addChild(stope, BUILDING_LAYEER_LVL);
 	stope->setPosition(mypos);    //setPosition
 	stope->showUI();
-	BuildingManager::m_buildingVec.push_back(stope);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		BuildingManager::m_buildingVec.push_back(stope);
+		stope->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		BuildingManager::m_enemyBuildingVec.push_back(stope);
+		stope->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+		stope->is_Enemy();
+	}
 
 	for (int i = -2; i < 3; i++)
 	{
@@ -216,7 +252,7 @@ void MenuLayer::createStope(Point tpos) {
 	}
 										   /*m_BuildingList.pushBack(barrack);*/
 }
-void MenuLayer::createWarFactory(Point tpos) {
+void MenuLayer::createWarFactory(Point tpos, bool not_enemy) {
 	//create WarFactory
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -239,8 +275,20 @@ void MenuLayer::createWarFactory(Point tpos) {
 	tmap->addChild(warf, BUILDING_LAYEER_LVL);
 	warf->setPosition(mypos);    //setPosition
 	warf->showUI();
-	buildingMgr->SetWarFactoryController(warf);
-	BuildingManager::m_buildingVec.push_back(warf);
+
+	if (not_enemy)
+	{
+		buildingMgr->SetWarFactoryController(warf);
+		//add m_buildingVec
+		BuildingManager::m_buildingVec.push_back(warf);
+		warf->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		BuildingManager::m_enemyBuildingVec.push_back(warf);
+		warf->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+		warf->is_Enemy();
+	}
 
 	for (int i = -2; i < 3; i++)
 	{
@@ -251,7 +299,7 @@ void MenuLayer::createWarFactory(Point tpos) {
 	}
 										 /*m_BuildingList.pushBack(barrack);*/
 }
-void MenuLayer::createBase(Point tpos) {
+void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -263,22 +311,35 @@ void MenuLayer::createBase(Point tpos) {
 		return;
 	}
 
-	Base* warf = new Base();
-	Building::createWithSpriteFrameName(warf, "Base.png");     //此处需要图片——图片
+	Base* base = new Base();
+	Building::createWithSpriteFrameName(base, "Base.png");     //此处需要图片——图片
 
 	Point mypos;
 	mypos.x = tpos.x - _currentPos.x;
 	mypos.y = tpos.y - _currentPos.y;
 
-	tmap->addChild(warf, BUILDING_LAYEER_LVL);
-	warf->setPosition(mypos);    //setPosition
-	warf->showUI();
+	tmap->addChild(base, BUILDING_LAYEER_LVL);
+	base->setPosition(mypos);    //setPosition
+	base->showUI();
 
-	//set BaseController
-	buildingMgr->SetBaseController(warf);
 
+	if (not_enemy)
+	{
+		buildingMgr->SetBaseController(base);
+		//add m_buildingVec
+		BuildingManager::m_buildingVec.push_back(base);
+		base->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		BuildingManager::m_enemyBuildingVec.push_back(base);
+		base->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+		base->is_Enemy();
+	}
+
+	log("createBase");
 	//add m_buildingVec
-	BuildingManager::m_buildingVec.push_back(warf);
+	BuildingManager::m_buildingVec.push_back(base);
 	for (int i = -2; i < 3; i++)
 	{
 		for (int j = -2; j < 3; j++)
@@ -339,20 +400,20 @@ void MenuLayer::CreateBarrackLayer(Building* building)
 		barrackPos.y -= 70;
 
 		if (message == "soldier") {
-			createSoldier(barrackPos);
+			createSoldier(barrackPos,true);
 		}
 		if (message == "dog") {
-			createDog(barrackPos);
+			createDog(barrackPos,true);
 		}
 		if (message == "sniper") {
-			createSniper(barrackPos);
+			createSniper(barrackPos,true);
 		}
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, soldier);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), dog);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), sniper);
 }
-void MenuLayer::createSoldier(Point tpos) {
+void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	//Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -367,11 +428,31 @@ void MenuLayer::createSoldier(Point tpos) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-	AIManager::m_armyVec.push_back(soldier_1);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		AIManager::m_armyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_armyVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		AIManager::m_enemyArmyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_enemyArmyVec.size() - 1;
+		soldier_1->is_Enemy();
+	}
+	
+	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
-void MenuLayer::createDog(Point tpos) {
+
+//void MenuLayer::AttackUpdate(float dt) {
+//	this->autoAttack();
+//}
+
+void MenuLayer::createDog(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -386,11 +467,25 @@ void MenuLayer::createDog(Point tpos) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-	AIManager::m_armyVec.push_back(soldier_1);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		AIManager::m_armyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_armyVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		AIManager::m_enemyArmyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_enemyArmyVec.size() - 1;
+		soldier_1->is_Enemy();
+	}
+
+	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
-void MenuLayer::createSniper(Point tpos) {
+void MenuLayer::createSniper(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -404,7 +499,21 @@ void MenuLayer::createSniper(Point tpos) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-	AIManager::m_armyVec.push_back(soldier_1);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		AIManager::m_armyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_armyVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		AIManager::m_enemyArmyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_enemyArmyVec.size() - 1;
+		soldier_1->is_Enemy();
+	}
+
+	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -437,7 +546,7 @@ void MenuLayer::CreateBaseLayer(Building* building)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), warfac);
 
 }
-void MenuLayer::createScv(Point tpos) {
+void MenuLayer::createScv(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -451,7 +560,21 @@ void MenuLayer::createScv(Point tpos) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-	AIManager::m_armyVec.push_back(soldier_1);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		AIManager::m_armyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_armyVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		AIManager::m_enemyArmyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_enemyArmyVec.size() - 1;
+		soldier_1->is_Enemy();
+	}
+
+	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -459,26 +582,38 @@ void MenuLayer::createScv(Point tpos) {
 void MenuLayer::CreateWarFactoryLayer(Building* building)
 {
 	//放置UI
+	log("create  warfactorylayer");
 	this->removeChild(UIMenu);
 	UIMenu = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("WarFactory/WarFactory_1.ExportJson");
 	UIMenu->setPosition(Point(0, 0));
 	this->addChild(UIMenu, UI_LAYEER_LVL + 1);
-	log("WarfacLayer");
+
 	Button* tank = (Button*)Helper::seekWidgetByName(UIMenu, "Button_Tank");
 	tank->setTouchEnabled(false);
 
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [&,building](Touch *touch, Event *event)
 	{	
-		Point warfkPos = building->getPosition();
-		warfkPos.x += 70;
-		warfkPos.y -= 70;
-		createTank(warfkPos);
-		return true;
+		auto target = static_cast<Sprite*>(event->getCurrentTarget());
+		Point pos = target->convertToNodeSpace(touch->getLocation());
+
+		Size s = target->getContentSize();
+		Rect rect = Rect(0, 0, s.width, s.height);
+		if (rect.containsPoint(pos))
+		{
+			log("tank");
+			Point warfkPos = building->getPosition();
+			warfkPos.x += 70;
+			warfkPos.y -= 70;
+			createTank(warfkPos,true);
+			return true;
+		}
+		return false;
 	};
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, tank);
 }
-void MenuLayer::createTank(Point tpos) {
+void MenuLayer::createTank(Point tpos, bool not_enemy) {
+	log("using tank");
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -492,7 +627,21 @@ void MenuLayer::createTank(Point tpos) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
-	AIManager::m_armyVec.push_back(soldier_1);
+
+	if (not_enemy)
+	{
+		//add m_buildingVec
+		AIManager::m_armyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_armyVec.size() - 1;
+	}
+	else {
+		//add m_buildingVec
+		AIManager::m_enemyArmyVec.push_back(soldier_1);
+		soldier_1->_numInVec = AIManager::m_enemyArmyVec.size() - 1;
+		soldier_1->is_Enemy();
+	}
+
+	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }

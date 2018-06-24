@@ -1,9 +1,10 @@
 #include "Army.h"
 #include "Scene\MapLayer.h"
-
+#include "AIManager/BuildingManager.h"
+#include "Entity/Entity.h"
+#include "AIManager.h"
 Army::Army() {
 	//ai = NULL;
-	m_iSpeed = 1;
 	m_atkEntity = NULL;
 	m_isAtkCoolDown = false;
 }
@@ -15,6 +16,9 @@ bool Army::init()
 	//this->addChild(ai);
 	showUI();
 	//readJson();
+	DPS = 1;
+	_numInVec = 0;
+	AttackDistance = 9;
 	return true;
 }
 void Army::showUI() {
@@ -57,31 +61,15 @@ Army* Army::createWithSpriteFrameName(Army* sprite, const char *filename)
 	return nullptr;
 }
 
-Point Army::getScenePosition()
-{
-	auto tmap = MapLayer::map;
-	auto _currentPos = tmap->getPosition();//地图的绝对坐标
-	Point tpos = this->getPosition();
-	tpos += _currentPos;
-	return tpos;
-}
-//void Army::move()
+//Point Army::getScenePosition()
 //{
-//	Point nowPos = this->getPosition();
-//	double length = (destination.x - nowPos.x)*(destination.x - nowPos.x);
-//	length += (destination.y - nowPos.y)*(destination.y - nowPos.y);
-//	length = sqrt(length);
-//	double time = length / MovingSpeed;
-//	MoveTo* moveTo = MoveTo::create(time, destination);
-//
-//	this->runAction(moveTo);
-////}
-//void Army::moveByPosList(Vector<Point*> posList) {
-//	if (posList.size() < 1) {
-//		return;
-//	}
-//	//ai->moveByPosList(posList, 2, 3);
+//	auto tmap = MapLayer::map;
+//	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+//	Point tpos = this->getPosition();
+//	tpos += _currentPos;
+//	return tpos;
 //}
+
 //
 //void Army::checkAtkEntity(float ft, Vector<Entity*> EntityList) {
 //	if (m_atkEntity != NULL) {
@@ -103,29 +91,59 @@ Point Army::getScenePosition()
 //	}
 //}
 //
-//
-//bool Army::isInAtkRange(Point pos) {
-//	int isDoubleAtkRange = AttackDistance;
-//	Point ArmyPos = getPosition();
-//
-//	float length = pos.getDistanceSq(ArmyPos);
-//	if (length <= isDoubleAtkRange*isDoubleAtkRange) {
-//		return true;
-//	}
-//	return false;
-//}
-//
-//void Army::chooseAtkEntity(Entity* entity) {
-//	m_atkEntity = entity;
-//}
-//
-//void Army::atk() {
-//	//标记攻击冷却
-//	m_isAtkCoolDown = true;
-//	//指定若干秒后继续攻击
-//	this->scheduleOnce(schedule_selector(Army::atkCoolDownEnd), 2 / 1000.0f);
-//}
-//
+bool Army::isInAtkRange(Entity* entity) {
+	//如果是空就直接返回false
+	if (entity == nullptr) { return false; }
+
+	Point myPos = this->getScenePosition();
+	Point enemyPos = entity->getScenePosition();
+
+	int iDistance = (myPos.x - enemyPos.x)*(myPos.x - enemyPos.x);
+	iDistance += (myPos.y - enemyPos.y)*(myPos.y - enemyPos.y);
+
+	int range2 = AttackDistance*AttackDistance;
+	if (iDistance <= range2)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+Entity* Army::chooseAtkEntity() {
+	int sum = BuildingManager::m_enemyBuildingVec.size();
+	for (int i = 0; i < sum; i++)
+	{
+		if (isInAtkRange(BuildingManager::m_enemyBuildingVec[i])) {
+			return BuildingManager::m_enemyBuildingVec[i];
+		}
+	}
+
+	int soldiersum = AIManager::m_enemyArmyVec.size();
+	for (int i = 0; i < soldiersum; i++)
+	{
+		if (isInAtkRange(AIManager::m_enemyArmyVec[i]))
+		{
+			return AIManager::m_enemyArmyVec[i];
+		}
+	}
+	
+	return nullptr;
+}
+
+void Army::Attack(Entity* entity) {
+	if (entity != nullptr)
+	{
+		log("Attack!!!\n\n\n");
+	    entity->hurtMe(DPS);
+	}
+}
+
+void Army::autoAttack(float dt) 
+{
+	Attack(this->chooseAtkEntity());
+}
+
 //void Army::atkCoolDownEnd(float dt) {
 //	m_isAtkCoolDown = false;
 //}
@@ -136,7 +154,4 @@ Point Army::getScenePosition()
 //			missAtkEntity();
 //		}
 //	}
-//}
-//void Army::missAtkEntity() {
-//	m_atkEntity = NULL;
 //}

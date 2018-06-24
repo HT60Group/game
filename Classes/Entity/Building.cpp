@@ -7,6 +7,7 @@ bool Building::init()
 {
 	//readJson();
 	showUI();
+	_numInVec = 0;
 	return true;
 }
 void Building::showUI() {
@@ -19,6 +20,14 @@ void Building::showUI() {
 	hpBar->setPercent(100);
 	totalHp = Hp;
 }
+//Point Building::getScenePosition()
+//{
+//	auto tmap = MapLayer::map;
+//	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+//	Point tpos = this->getPosition();
+//	tpos += _currentPos;
+//	return tpos;
+//}
 //void Building::readJson()
 //{
 //	Json::Reader reader;
@@ -44,32 +53,32 @@ bool Building::isDeath()
 {
 	return isBroken;
 }
-
-void Building::hurt(int x)
-{
-	if (Hp <= 0 || isBroken == true) {
-		isBroken = true;
-		return;
-	}
-
-	Hp -= x;
-	if (Hp <= 0) {
-
-		this->isBroken = true;
-
-		auto bg = (Sprite*)this->getChildByName("Bar");
-		bg->removeFromParent();
-		normal->setVisible(false);
-
-	// 基地爆炸,游戏结束
-	//	auto layer = (BattleMapLayer*)this->getParent();
-	//	layer->_ai->gameOver(GAME_OVER_SUCCESS);
-	}
-	else {
-		//血条变化
-		//hpBar->setPercent(100.0 * Hp / totalHP);
-	}
-}
+//
+//void Building::hurt(int x)
+//{
+//	if (Hp <= 0 || isBroken == true) {
+//		isBroken = true;
+//		return;
+//	}
+//
+//	Hp -= x;
+//	if (Hp <= 0) {
+//
+//		this->isBroken = true;
+//
+//		auto bg = (Sprite*)this->getChildByName("Bar");
+//		bg->removeFromParent();
+//		normal->setVisible(false);
+//
+//	// 基地爆炸,游戏结束
+//	//	auto layer = (BattleMapLayer*)this->getParent();
+//	//	layer->_ai->gameOver(GAME_OVER_SUCCESS);
+//	}
+//	else {
+//		//血条变化
+//		//hpBar->setPercent(100.0 * Hp / totalHP);
+//	}
+//}
 
 Point Building::getScenePosition()
 {

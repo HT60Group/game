@@ -30,6 +30,8 @@ public:
 	//½¨ÖþÁÐ±í
 	static std::vector<Building*> m_buildingVec;
 	static std::vector<Building*> m_enemyBuildingVec;
+
+	void DestoryBuilding(Building* building);
 protected:
 
 	std::vector<std::vector<int>> _collidable;

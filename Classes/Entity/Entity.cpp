@@ -1,17 +1,10 @@
 #include "Entity.h"
+#include "Scene\MapLayer.h"
 
 Entity::Entity()
 {
-	m_sprite = NULL;
-	m_sName = "";
-	m_iHP = 1;
-	m_isDied = false;
-	m_iSpeed = 1;
 }
 Entity::~Entity() {
-}
-Sprite* Entity::getSprite() {
-	return this->m_sprite;
 }
 
 void Entity::hurtMe(int iHurtValue) {
@@ -19,25 +12,20 @@ void Entity::hurtMe(int iHurtValue) {
 		return;
 	}
 
-	int iCurHP = getiHP();
-	int iAfterHP = iCurHP - iHurtValue;
+	int iAfterHp= Hp - iHurtValue;
 
-	onHurt(iHurtValue);
-	if (iAfterHP > 0) {
-		setiHP(iAfterHP);
+	if (iAfterHp > 0) {
+		Hp=iAfterHp;
 	}
 	else {
-		m_isDied = true;
 		onDied();
 	}
 }
-bool Entity::isDied() {
-	return this->m_isDied;
-}
 
 void Entity::onDied() {
+    m_isDied=true;
+	this->removeFromParent();
 }
-void Entity::onHurt(int iHurtValue){}
 
 bool Entity::init()
 {
@@ -45,9 +33,18 @@ bool Entity::init()
 	{
 		return false;
 	}
-
+	Belonging = true;
+	m_isDied = false;
+	_numInVec = 0;
+	Hp = 1;
+	totalHp = 1;
 	//readJson();
 	return true;
+}
+
+void Entity::is_Enemy()
+{
+	Belonging = false;
 }
 //
 //void Entity::readJson()
@@ -58,9 +55,12 @@ bool Entity::init()
 //	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
 //
 //}
-
-void Entity::atk() { CCLOG("Base atk"); }
-void Entity::run() { CCLOG("Base run"); }
-void Entity::hurt(int x) { CCLOG("Base hurt"); }
-void Entity::idle() { CCLOG("Base idle"); }
+Point Entity::getScenePosition()
+{
+	auto tmap = MapLayer::map;
+	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+	Point tpos = this->getPosition();
+	tpos += _currentPos;
+	return tpos;
+}
 //bool Entity::isDied() { CCLOG("Base isDied"); return false; }

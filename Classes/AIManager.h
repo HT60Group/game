@@ -9,10 +9,11 @@ public:
 	CREATE_FUNC(AIManager);
 	virtual bool init();
 	void selectionController();
-	
+	void moveController();
 
 	static std::vector<Army*> m_armyVec;
 	static std::vector<Army*> m_enemyArmyVec;
+	static std::vector<Army*> s_armyVec;
 
 	/*LayerColor* layer;*/
 private:

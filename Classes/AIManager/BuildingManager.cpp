@@ -107,10 +107,16 @@ MenuLayer* BuildingManager::GetMenuLayer()
 	return 	MapScene::GetMenuLayer();
 }
 
-//void BuildingManager::DestoryBuilding(Building* building)
-//{
-//
-//}
+void BuildingManager::DestoryBuilding(Building* building)
+{
+	if (!building->Belonging) {
+		m_enemyBuildingVec[building->_numInVec] = nullptr;
+	}
+	if (building->Belonging) {
+		m_buildingVec[building->_numInVec] = nullptr;
+	}
+	building->removeFromParent();
+}
 
 std::vector<Building*> BuildingManager::m_buildingVec;
 std::vector<Building*> BuildingManager::m_enemyBuildingVec;

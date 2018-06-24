@@ -25,12 +25,14 @@ public:
 	virtual bool init();
 	virtual void showUI();
 
-	Point getScenePosition();
+	//Point getScenePosition();
 	static Army* createWithSpriteFrameName(Army* sprite,const char *filename);
 	//void moveByPosList(Vector<Point*> posList);
 
 	//virtual void move();
-	//virtual void atk();
+
+	void Attack(Entity* entity);
+	void autoAttack(float dt);
 	//virtual void hurt(int x);
 	//virtual bool isDeath();  
 
@@ -39,31 +41,21 @@ public:
 
 	//读取配置文件
 	//virtual void readJson();
-	bool isbroken;
 
-	//void checkAtkEntity(float ft, Vector<Entity*> EntityList);
-	//void checkAimIsOutOfRange(Vector<Entity*> EntityList);
-	//void chooseAim();
-	//bool isInAtkRange(Point pos);
-	//void chooseAtkEntity(Entity* entity);
-	//void atkCoolDownEnd(float dt);
-	//void missAtkEntity();
+	bool isbroken;
+	bool isInAtkRange(Entity* entity);
+	Entity* chooseAtkEntity();
+
 protected:
 	Point nowPoint;                //相对于屏幕坐标
 	Vector<Entity*> EntityList;
 	Entity* m_atkEntity;
 	bool m_isAtkCoolDown;
-	int Hp;                  //血量
-	int totalHp;               // 总生命值
 	double MovingSpeed;               //移动速度
     int AttackDistance;            //攻击距离
 	int DPS;                       //伤害
 	int attackSpeed;
-	int CostMine;                  //花费的矿
-	int CostElec;                 //花费的电
-	int ViewDistance;              //视野
-	int Costime;                  //花费的时间
-	int Belong;
+	//int ViewDistance;              //视野
 	LoadingBar* hpBar;         // 血条
 	Entity* target;
 };
