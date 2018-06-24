@@ -9,11 +9,12 @@ Entity::~Entity() {
 
 void Entity::hurtMe(int iHurtValue) {
 	if (m_isDied) {
+		log("iAfterHp:%d", Hp);
 		return;
 	}
 
 	int iAfterHp= Hp - iHurtValue;
-
+	log("iAfterHp:%d", iAfterHp);
 	if (iAfterHp > 0) {
 		Hp=iAfterHp;
 	}
@@ -59,8 +60,10 @@ Point Entity::getScenePosition()
 {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
+	log("mapPos=(%f,%f)", _currentPos.x, _currentPos.y);
 	Point tpos = this->getPosition();
 	tpos += _currentPos;
+	log("tPos=(%f,%f)", tpos.x, tpos.y);
 	return tpos;
 }
 //bool Entity::isDied() { CCLOG("Base isDied"); return false; }

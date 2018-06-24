@@ -322,7 +322,6 @@ void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	base->setPosition(mypos);    //setPosition
 	base->showUI();
 
-
 	if (not_enemy)
 	{
 		buildingMgr->SetBaseController(base);
@@ -428,6 +427,7 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
+	//Point mmmpos = soldier_1->getScenePosition();
 
 	if (not_enemy)
 	{
