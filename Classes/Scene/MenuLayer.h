@@ -28,13 +28,28 @@ public:
 	LayerColor* menuLayer;
 	void setMouseController();
 	void Controller();
-	void createBarrack(Point tpos);
-	void createProducer(Point tpos);
-	void createStope(Point tpos);
-	void createWarFactory(Point tpos);
+
+	void AttackUpdate(float dt);
+	//============建造建筑
+	void createBarrack(Point tpos,bool not_enemy);
+	void createProducer(Point tpos, bool not_enemy);
+	void createStope(Point tpos, bool not_enemy);
+	void createWarFactory(Point tpos, bool not_enemy);
+	void createBase(Point tpos, bool not_enemy);
+
+	//============建造小兵
+	void createSoldier(Point tpos, bool not_enemy);
+	void createScv(Point tpos, bool not_enemy);
+	void createDog(Point tpos, bool not_enemy);
+	void createSniper(Point tpos, bool not_enemy);
+	void createTank(Point tpos, bool not_enemy);
 
 
-	void CreateBarrackLayer();
+	//void CreateBarrackLayer();
+	void CreateBarrackLayer(Building* building);
+	void CreateBaseLayer(Building* building);
+	void CreateWarFactoryLayer(Building* building);
+
 	void onTouchMoved(Touch* touch, Event* event);
 	bool onTouchBegan(Touch* touch, Event* event);
 	void onTouchEnded(Touch* touch, Event* event);

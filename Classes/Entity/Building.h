@@ -30,22 +30,16 @@ public:
 	//建造
 	static Building* createWithSpriteFrameName(Building* sprite, const char *filename);
 
-	bool isClickMe(Point pos);
-
-	virtual void hurt(int x);
+	//virtual void hurt(int x);
 	virtual bool isDeath();
+	//得到建筑相对地图坐标
+	//Point getScenePosition();
 
 	bool isBroken;             // 是否被摧毁
-	Sprite* normal;            // 正常图片
-protected:
-	int Hp;                  //血量
-	int totalHp;               // 总生命值
-	double sizeX;            //大小——长
-	double sizeY;            //大小——宽
-	int Costime;             //建筑花费的时间
-	int CostMine;            //建造花费的矿
-	int CostElec;            //建造花费的电
+	//Sprite* normal;            // 正常图片
 
+	Point getScenePosition();
+protected:
 	int index;                 // 内存中的数组下标
 	int id;                    // 编号
 	int BuildingID;            // 建筑编号ID

@@ -16,22 +16,23 @@ public:
 	CREATE_FUNC(BuildingManager);
 
 	void gameOver(int state);
+	
 
-	static BuildingManager* createBuildingMgr();
-
-	MenuLayer* GetMenuLayer();
-	//========不同建筑的点击事件=====
+	//不同建筑的点击事件
 	void SetBaseController(Building*);
 	void SetBarrackController(Building*);
 	void SetWarFactoryController(Building*);
 
 	cocos2d::TMXTiledMap* GetMap();
+    MenuLayer* GetMenuLayer();
 
-	static std::vector<Building*>  _buildingVec;
-	static std::vector<Building*> _enemyBuildingVec;
+	static BuildingManager* createBuildingMgr();
+	//建筑列表
+	static std::vector<Building*> m_buildingVec;
+	static std::vector<Building*> m_enemyBuildingVec;
+
+	void DestoryBuilding(Building* building);
 protected:
-	Vector<Building*> m_BuildingList;
 
 	std::vector<std::vector<int>> _collidable;
-	Building* findClickBuilding(Point pos);
 };

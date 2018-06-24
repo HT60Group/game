@@ -31,16 +31,35 @@ bool HelloWorld::init()
 	UI->setPosition(Point(0, 0));
 	this->addChild(UI);
 
-
+	log("button");
 	// button 
 	Button* START = (Button*)Helper::seekWidgetByName(UI, "START");
 	START->setTouchEnabled(true);
 	START->addTouchEventListener(CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
     
 	Button* Setting = (Button*)Helper::seekWidgetByName(UI, "Setting");
-	Setting->setTouchEnabled(true);
-	Setting->addTouchEventListener(CC_CALLBACK_1(HelloWorld::buttonTurnToSetting, this));
+	Setting->setTouchEnabled(false);
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->onTouchBegan = [&](Touch *touch, Event *event)
+	{
+		return true;
+	};
+	listener->onTouchMoved = [&](Touch *touch, Event *event)
+	{
+
+	};
+	listener->onTouchEnded = [&](Touch *touch, Event *event)
+	{
+		//if (n == 0) {
+         log("button1");
+		buttonTurnToSetting(this);
+		//}
+		
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, Setting);
+	//Setting->addTouchEventListener(CC_CALLBACK_1(HelloWorld::buttonTurnToSetting, this));
 	return true;
+
 }
 
 void HelloWorld::menuCloseCallback(Ref* pSender)
@@ -66,6 +85,8 @@ void HelloWorld::buttonTurnToSetting(Ref* pSender)
 	auto scene = MapScene::createScene();
 	Director::getInstance()->replaceScene(scene);
 
+	n++;
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	exit(0);
 #endif
@@ -74,7 +95,6 @@ void HelloWorld::buttonTurnToSetting(Ref* pSender)
 
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
-
 
 }
 

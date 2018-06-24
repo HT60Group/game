@@ -20,7 +20,7 @@ public:
 	static TMXTiledMap* map;
 	std::vector<std::vector<int> > Collidable() { return _collidable; };
 	void setcollidable(int x, int y, int i) { _collidable[x][y] = i; };
-	
+
 	static Vec2 ConvertToMap(float x, float y,TMXTiledMap* map);
 	Vec2 ConvertToScene(int x, int y, TMXTiledMap* map);
 private:

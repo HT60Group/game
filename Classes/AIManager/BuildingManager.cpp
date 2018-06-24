@@ -41,6 +41,28 @@ void BuildingManager::SetBarrackController(Building* building)
 	log("using setBarrack");
 	listener->onTouchBegan = [&, building](Touch *touch, Event *event)
 	{
+		auto tmap = MapLayer::map;
+		//auto _currentPos = tmap->getPosition();//地图的绝对坐标
+
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Point pos = Director::getInstance()->convertToGL(touch->getLocationInView());
+		auto target1 = static_cast<Building*>(event->getCurrentTarget());
+		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
+		{
+			log("OK");
+			GetMenuLayer()->CreateBarrackLayer(building);
+			return true;
+		}
+		return false;
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, building);
+}
+void BuildingManager::SetBaseController(Building* building)
+{
+	auto listener = EventListenerTouchOneByOne::create();
+	log("using setBase");
+	listener->onTouchBegan = [&, building](Touch *touch, Event *event)
+	{
 		log("target");
 		auto tmap = MapLayer::map;
 		//auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -51,7 +73,29 @@ void BuildingManager::SetBarrackController(Building* building)
 		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
 		{
 			log("OK");
-			GetMenuLayer()->CreateBarrackLayer();
+			GetMenuLayer()->CreateBaseLayer(building);
+			return true;
+		}
+		return false;
+	};
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, building);
+}
+
+void BuildingManager::SetWarFactoryController(Building* building)
+{
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->onTouchBegan = [&, building](Touch *touch, Event *event)
+	{
+		log("using setWarf");
+		auto tmap = MapLayer::map;
+		//auto _currentPos = tmap->getPosition();//地图的绝对坐标
+
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Point pos = Director::getInstance()->convertToGL(touch->getLocationInView());
+		auto target1 = static_cast<Building*>(event->getCurrentTarget());
+		if (target1->getBoundingBox().containsPoint(pos - tmap->getPosition()))
+		{
+			GetMenuLayer()->CreateWarFactoryLayer(building);
 			return true;
 		}
 		return false;
@@ -62,3 +106,17 @@ MenuLayer* BuildingManager::GetMenuLayer()
 {
 	return 	MapScene::GetMenuLayer();
 }
+
+void BuildingManager::DestoryBuilding(Building* building)
+{
+	if (!building->Belonging) {
+		m_enemyBuildingVec[building->_numInVec] = nullptr;
+	}
+	if (building->Belonging) {
+		m_buildingVec[building->_numInVec] = nullptr;
+	}
+	building->removeFromParent();
+}
+
+std::vector<Building*> BuildingManager::m_buildingVec;
+std::vector<Building*> BuildingManager::m_enemyBuildingVec;

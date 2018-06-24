@@ -16,27 +16,31 @@ public:
 	////读取配置文件
 	//virtual void readJson();
 
-	virtual void atk();
-	virtual void run();
-	virtual void hurt(int x);
-	virtual void idle();
-	virtual bool isDied();
+	//virtual void hurt(int x);
+	//virtual void idle();
+	//virtual bool isDied();
+
+	//得到建筑相对地图坐标
+	Point getScenePosition();
 	//被攻击
 	void hurtMe(int iHurtValue);
-	Sprite* getSprite();
-	
+	void onDied();
+
+	void is_Enemy();
+	int _numInVec;             //在vec中的位置
+
 	Vec2 pos;
+	bool Belonging;             //true表示是自己的
 protected:
 	Sprite* m_sprite;  
-	virtual void onDied();
-	virtual void onHurt(int iHurtValue);
 
-	CC_SYNTHESIZE(int, m_ID, ID);
-	CC_SYNTHESIZE(int, m_iModelID, iModelID);
-	CC_SYNTHESIZE(std::string, m_sName, sName);
-	CC_SYNTHESIZE(int, m_iHP, iHP);
-	CC_SYNTHESIZE(int, m_iSpeed, iSpeed);
+	int Hp;
+	int totalHp;
 	bool m_isDied;
+	int Costime;             //建筑花费的时间
+	int CostMine;            //建造花费的矿
+	int CostElec;            //建造花费的电
+	bool isDied();
 
 };
 #endif
