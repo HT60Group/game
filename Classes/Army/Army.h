@@ -46,6 +46,7 @@ public:
 	bool isInAtkRange(Entity* entity);
 	Entity* chooseAtkEntity();
 
+	std::vector<Point> way;
 protected:
 	Point nowPoint;                //相对于屏幕坐标
 	Vector<Entity*> EntityList;

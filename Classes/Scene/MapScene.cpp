@@ -6,11 +6,6 @@
 #include"AIManager.h"
 Scene* MapScene::createScene() {
 	log("Mapscene\n\n\n\n");
-	//auto scene = Scene::create();
-	//auto layer = MapScene::create();
-	//TollgateDataLayer* dataLayer = TollgateDataLayer::create();
-	//scene->addChild(layer);
-	//scene->addChild(dataLayer, 5, UI_LAYEER_LVL);
 
 	return MapScene::create();
 }
@@ -24,6 +19,9 @@ bool MapScene::init() {
 
 	_menuLayer = MenuLayer::create();
 	this->addChild(_menuLayer);
+
+	TollgateDataLayer* dataLayer = TollgateDataLayer::create();
+	this->addChild(dataLayer);
 
 	SpriteFrameCache* frameCache = SpriteFrameCache::getInstance();
 	frameCache->addSpriteFramesWithFile("Warrior.plist", "Warrior.png");

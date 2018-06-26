@@ -30,6 +30,9 @@ public:
 	void Controller();
 
 	void AttackUpdate(float dt);
+
+	Sprite* newsprite;
+
 	//============½¨Ôì½¨Öþ
 	void createBarrack(Point tpos,bool not_enemy);
 	void createProducer(Point tpos, bool not_enemy);

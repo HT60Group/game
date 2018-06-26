@@ -19,6 +19,7 @@ public:
 	void FindWay();
 	static TMXTiledMap* map;
 	std::vector<std::vector<int> > Collidable() { return _collidable; };
+	int getCollidable(int x, int y) { return _collidable[x][y]; }
 	void setcollidable(int x, int y, int i) { _collidable[x][y] = i; };
 
 	static Vec2 ConvertToMap(float x, float y,TMXTiledMap* map);

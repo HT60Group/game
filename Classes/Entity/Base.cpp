@@ -1,22 +1,17 @@
 #include "Base.h"
 
-const double BaseSizeX=0;
-const double BaseSizeY=0;
 
 Base::Base() {
+	Hp = 1000;
+	log("BaseHp=1000\n\n");
+	totalHp = 1000;
 }
 Base::~Base(){}
 
 bool Base::init()
 {
 	//readJson();
-	//create base
-	//Base* base = new Base();
-	//Building::create(base, "Base.png");     //此处需要图片——图片
 
-	//this->addChild(base);
-
-	//base->setPosition(Point(0, 0));            //setPosition
 	return true;
 }
 void Base::showUI() {

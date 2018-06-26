@@ -74,7 +74,7 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 	Rect rect = Rect(0, 0, s.width, s.height);
 	if (rect.containsPoint(pos))
 	{
-		log("%f", touch->getLocation().y);
+		log("begin%f", touch->getLocation().y);
 		if (touch->getLocation().y > 700 && touch->getLocation().y<800)
 		{
 			message = "barrack";
@@ -94,6 +94,15 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 }
 void MenuLayer::onTouchMoved(Touch* touch, Event* event)
 {  
+	//auto target = static_cast<Sprite*>(event->getCurrentTarget());
+	//Point pos = newsprite->convertToNodeSpace(touch->getLocation());
+
+	//Size s = newsprite->getContentSize();
+	//Rect rect = Rect(0, 0, s.width, s.height);
+	//if (rect.containsPoint(pos))
+	//{
+	//	newsprite->setPosition(newsprite->getPosition() + touch->getDelta());
+	//}
 }
 void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 {
@@ -126,7 +135,17 @@ void MenuLayer::createBarrack(Point tpos, bool not_enemy) {
 	{
 		return;
 	}
-	
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
+	}
+
 	Barrack* barrack = new Barrack();
 	Building::createWithSpriteFrameName(barrack, "Barracks.png");     //此处需要图片——图片
 
@@ -171,6 +190,16 @@ void MenuLayer::createProducer(Point tpos, bool not_enemy) {
 	if (a.x > 74 || a.x < 0 || a.y>74 || a.y < 0)
 	{
 		return;
+	}
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
 	}
 
 	Producer* producer = new Producer();
@@ -218,6 +247,16 @@ void MenuLayer::createStope(Point tpos, bool not_enemy) {
 	{
 		return;
 	}
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
+	}
 
 	Stope* stope= new Stope();
 	Building::createWithSpriteFrameName(stope, "Stope.png");     //此处需要图片——图片
@@ -263,6 +302,16 @@ void MenuLayer::createWarFactory(Point tpos, bool not_enemy) {
 	if (a.x > 74 || a.x < 0 || a.y>74 || a.y < 0)
 	{
 		return;
+	}
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
 	}
 
 	WarFactory* warf = new WarFactory();
@@ -339,6 +388,7 @@ void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	log("createBase");
 	//add m_buildingVec
 	BuildingManager::m_buildingVec.push_back(base);
+
 	for (int i = -2; i < 3; i++)
 	{
 		for (int j = -2; j < 3; j++)
@@ -418,8 +468,10 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 	//Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
 
 	Soldier* soldier_1 = new Soldier();
+
 	Army::createWithSpriteFrameName(soldier_1, "ALLArmy/soldier_1.png");     //此处需要图片——图片
 
+	
 	//Point mypos;
 	//mypos.x = tpos.x - _currentPos.x;
 	//mypos.y = tpos.y - _currentPos.y;

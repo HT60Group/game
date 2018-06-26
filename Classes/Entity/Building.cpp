@@ -28,14 +28,6 @@ void Building::showUI() {
 //	tpos += _currentPos;
 //	return tpos;
 //}
-//void Building::readJson()
-//{
-//	Json::Reader reader;
-//	Json::Value root;
-//	
-//	totalHp = Hp;
-//	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
-//}
 
 
 Building* Building::createWithSpriteFrameName(Building* sprite, const char *filename)

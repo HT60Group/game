@@ -1,7 +1,7 @@
 #include "Scene/TollgateDataLayer.h"
 
 TollgateDataLayer::TollgateDataLayer() {
-	m_iGold = 0;
+	m_iGold = 100;
 	m_iElec = 0;
 	m_iPop = 0;
 }
@@ -20,6 +20,9 @@ bool TollgateDataLayer::init() {
 	m_GoldLab = (Text*)Helper::seekWidgetByName(UI, "GoldNumLab");
 	m_ElecLab = (Text*)Helper::seekWidgetByName(UI, "ElecNumLab");
 	m_PopLab = (Text*)Helper::seekWidgetByName(UI, "PopNumLab");
+
+
+	m_GoldLab->setText(StringUtils::toString(m_iGold));
 
 	NotificationCenter::getInstance()->addObserver(this,
 		callfuncO_selector(TollgateDataLayer::recvRefreshGoldNum),

@@ -1,5 +1,18 @@
 #include "Dog.h"
 
+Dog::Dog() {
+	Hp = 35;
+	MovingSpeed = 3.2;               //移动速度
+	AttackDistance = 2;            //攻击距离
+	DPS = 8;                       //伤害
+	CostMine = 45;                  //花费的矿
+	CostElec = 0;                 //花费的电
+	Costime = 25;                  //花费的时间
+}
+Dog::~Dog()
+{
+
+}
 bool Dog::init()
 {
 	return true;

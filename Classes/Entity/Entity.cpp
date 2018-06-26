@@ -3,20 +3,29 @@
 
 Entity::Entity()
 {
+	Belonging = true;
+	m_isDied = false;
+	log("m_isDied is false\n\n\n");
+	_numInVec = 0;
+	Hp = 1;
+	totalHp = 1;
 }
 Entity::~Entity() {
 }
 
 void Entity::hurtMe(int iHurtValue) {
 	if (m_isDied) {
-		log("iAfterHp:%d", Hp);
+		log("endHp:%d", Hp);
 		return;
 	}
 
+	log("Hp=%d",Hp);
 	int iAfterHp= Hp - iHurtValue;
+
 	log("iAfterHp:%d", iAfterHp);
 	if (iAfterHp > 0) {
 		Hp=iAfterHp;
+		hpBar->setPercent(100.0 * Hp / totalHp);
 	}
 	else {
 		onDied();
@@ -34,11 +43,7 @@ bool Entity::init()
 	{
 		return false;
 	}
-	Belonging = true;
-	m_isDied = false;
-	_numInVec = 0;
-	Hp = 1;
-	totalHp = 1;
+
 	//readJson();
 	return true;
 }
@@ -60,10 +65,20 @@ Point Entity::getScenePosition()
 {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
-	log("mapPos=(%f,%f)", _currentPos.x, _currentPos.y);
-	Point tpos = this->getPosition();
-	tpos += _currentPos;
-	log("tPos=(%f,%f)", tpos.x, tpos.y);
-	return tpos;
+	if (this != nullptr)
+	{
+	    Point tpos = this->getPosition();
+		tpos += _currentPos;
+	    return tpos;
+	}
+
+
+}
+int Entity::getHp() {
+	return Hp;
+}
+bool Entity::getM_isDied()
+{
+	return m_isDied;
 }
 //bool Entity::isDied() { CCLOG("Base isDied"); return false; }

@@ -11,7 +11,7 @@ public:
 	virtual bool init();
 
 	//¶ÁÈ¡ÅäÖÃÎÄ¼ş
-	//virtual void readJson();
+	void readJson();
 	virtual void showUI();
 };
 #endif

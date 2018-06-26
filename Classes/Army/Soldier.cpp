@@ -1,10 +1,16 @@
 #include "Soldier.h"
+#include "json/json.h"
 
 bool Soldier::init()
 {
 	return true;
 }
 void Soldier::showUI() {
+	log("init");
+	//Hp = 1;
+	//totalHp = 1;
+	//DPS = 1;
+	readJson();
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("hpBar_1.ExportJson");
 	this->addChild(UI);
 	Size size = this->getContentSize();
@@ -14,21 +20,14 @@ void Soldier::showUI() {
 	hpBar->setPercent(100);
 	totalHp = Hp;
 }
-//void Soldier::readJson()
-//{
-//	Json::Reader reader;
-//	Json::Value root;
-//
-//	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
-//
-//	if (reader.parse(data, root, false) == true)
-//	{
-//		Hp = root["Soldier"]["Hp"].asInt();
-//		MovingSpeed = root["Soldier"]["Speed"].asDouble();               //移动速度
-//		AttackDistance = root["Soldier"]["Range"].asInt();            //攻击距离
-//		DPS = root["Soldier"]["Dps"].asInt();                       //伤害
-//		CostMine = root["Soldier"]["CostMime"].asInt();                  //花费的矿
-//		CostElec = root["Soldier"]["CostElec"].asInt();                 //花费的电
-//		Costime = root["Soldier"]["Costime"].asInt();                  //花费的时间
-//	}
-//}
+void Soldier::readJson()
+{
+	Hp = 45;
+	MovingSpeed = 2.25;               //移动速度
+	AttackDistance = 5;            //攻击距离
+	DPS = 6;                       //伤害
+	CostMine = 50;                  //花费的矿
+	CostElec = 0;                 //花费的电
+	Costime =25;                  //花费的时间
+	log("Hp=%d\nAttackDistance=%d\nCostMine=%d", Hp, AttackDistance, CostMine);
+}
