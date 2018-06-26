@@ -4,6 +4,8 @@
 #include"Scene/MapLayer.h"
 using namespace cocos2d;
 
+std::list<cocos2d::Point> Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze);
+
 
 bool AIManager::init()
 {
@@ -13,7 +15,6 @@ bool AIManager::init()
 	/*this->addChild(selection);*/
 	this->selectionController();
 	this->moveController();
-
 	return true;
 }
 void AIManager::selectionController()
@@ -37,17 +38,20 @@ void AIManager::selectionController()
 	};
 	listener->onTouchMoved = [&](Touch* touch, Event* event)
 	{
-		mousePos_moved = touch->getLocation();
-		auto _visibleSize = Director::getInstance()->getVisibleSize();
-	
-		if (mousePos_began.x < (_visibleSize.width * 5 / 6))
-		{
-			selection->setContentSize(CCSize(mousePos_moved.x - mousePos_began.x, mousePos_moved.y - mousePos_began.y));
-			selection->setPosition(mousePos_began);
-		}
-		s_armyVec.clear();
+		
+			mousePos_moved = touch->getLocation();
+			auto _visibleSize = Director::getInstance()->getVisibleSize();
 
-		log("moved=(%f,%f)", mousePos_moved.x, mousePos_moved.y);
+			if (mousePos_began.x < (_visibleSize.width * 5 / 6))
+			{
+				selection->setContentSize(CCSize(mousePos_moved.x - mousePos_began.x, mousePos_moved.y - mousePos_began.y));
+				selection->setPosition(mousePos_began);
+			}
+			s_armyVec.clear();
+
+			log("moved=(%f,%f)", mousePos_moved.x, mousePos_moved.y);
+		 
+	   
 
 	};
 	listener->onTouchEnded = [&](Touch* touch, Event* event)
@@ -81,44 +85,147 @@ void AIManager::selectionController()
 	//log("controller");
 	this->setTouchEnabled(false);
 }
+void Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze,Army* army)
+{
+	Astar astar;
+	astar.InitAstar(_maze);
+	astar.GetPath(start, end,army);
+	return;
+
+}
+
+void AIManager::move(Army* army,Point endPos)
+{
+	auto map_pos = MapLayer::map->getPosition();//地图绝对坐标
+	Point temp_tile;
+	if (army->way.begin() != army->way.end())
+	{
+
+		temp_tile = (army->way).front();
+		log("tempTile<%f,%f>", temp_tile.x, temp_tile.y);
+		for (auto path : army->way)
+		{
+			log("path<%f,%f>", path.x, path.y);
+		}
+	}
+	else
+	{
+		MoveTo* movetoend = MoveTo::create(0.2f, endPos);
+		army->runAction(movetoend);
+		return	;
+	}
+
+	army->way.pop_front();
+	auto temp_pos = MapLayer::ConvertToScene(temp_tile.x, temp_tile.y, MapLayer::map);
+	log("temppos<%f,%f>", temp_pos.x, temp_pos.y);
+	auto tar_pos = temp_pos - map_pos;
+	
+	auto callfunc = [&,army]()
+	{
+		log("call/////////////////////////////////////////////////////////////////////");
+		AIManager::move(army,endPos); 
+	
+	   
+	};
+	auto callFunc = CallFunc::create(callfunc);
+	MoveTo* moveto = MoveTo::create(0.2f, tar_pos);
+	
+	Action* actions = Sequence::create(moveto, callFunc, NULL);
+
+	army->runAction(actions);
+
+	
+}
+void AIManager::move(Army* army)
+{
+	auto map_pos = MapLayer::map->getPosition();//地图绝对坐标
+	Point temp_tile;
+	if (army->way.begin() != army->way.end())
+	{
+
+		temp_tile = (army->way).front();
+		log("tempTile<%f,%f>", temp_tile.x, temp_tile.y);
+		for (auto path : army->way)
+		{
+			log("path<%f,%f>", path.x, path.y);
+		}
+	}
+	else
+	{
+		/*MoveTo* movetoend = MoveTo::create(0.2f, endPos);
+		army->runAction(movetoend);*/
+		return;
+	}
+
+	army->way.pop_front();
+	auto temp_pos = MapLayer::ConvertToScene(temp_tile.x, temp_tile.y, MapLayer::map);
+	log("temppos<%f,%f>", temp_pos.x, temp_pos.y);
+	auto tar_pos = temp_pos - map_pos;
+
+	auto callfunc = [&, army]()
+	{
+		log("call/////////////////////////////////////////////////////////////////////");
+		AIManager::move(army);
+
+
+	};
+	auto callFunc = CallFunc::create(callfunc);
+	MoveTo* moveto = MoveTo::create(0.2f, tar_pos);
+
+	Action* actions = Sequence::create(moveto, callFunc, NULL);
+
+	army->runAction(actions);
+
+
+}
 void AIManager::moveController()
 {
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [&](Touch* touch, Event* event)
-	{
-		
-		return true;
-	};
-	listener->onTouchMoved = [&](Touch* touch, Event* event)
+	auto listener = EventListenerMouse::create();
+	listener->onMouseDown = [&](Event* event)
 	{
 		return true;
 	};
-	listener->onTouchEnded = [&](Touch* touch, Event* event)
+	listener->onMouseMove = [&](Event* event)
 	{
-
-		auto mousePos_ended = touch->getLocation();
-		//if (static_cast<int>(static_cast<EventMouse*>(event)->getMouseButton()) == 1)
-		//{
-			if (s_armyVec.begin() != s_armyVec.end())
+		return true;
+	};
+	listener->onMouseUp = [&](Event* event)
+	{
+		if (static_cast<int>(static_cast<EventMouse*>(event)->getMouseButton()) == 1)
+		{
+			if (!s_armyVec.empty())
 			{
-
-				auto it = s_armyVec.begin();
-				auto _currentPos = MapLayer::map->getPosition();//地图的绝对坐标
-				auto pos = touch->getLocation() - _currentPos;
-
-				for (; it != s_armyVec.end(); it++)
+				int n = 0;
+				for (auto army : s_armyVec)
 				{
-					MoveTo* moveto = MoveTo::create(0.2f, Point(pos.x, pos.y));
-					(*it)->runAction(moveto);
+					if (!army->getM_isDied())
+					{
+						army->stopAllActions();
+						army->way.clear();
+						auto mousePos= Point( static_cast<EventMouse*>(event)->getCursorX(),static_cast<EventMouse*>(event)->getCursorY());
+						auto mapPos = MapLayer::map->getPosition();
+						auto endPos = mousePos - mapPos;
+						auto mouse_tile = MapLayer::ConvertToMap(mousePos.x, mousePos.y, MapLayer::map)+Point(n,n);
+						
+						auto maze = MapLayer::Collidable();
+						if (maze[mouse_tile.x][mouse_tile.y] == 0)
+						{
+							auto start_pos = army->getPosition() + MapLayer::map->getPosition();
+							auto start_tile = MapLayer::ConvertToMap(start_pos.x, start_pos.y, MapLayer::map);
+							Findway(start_tile, mouse_tile, maze, army);
+							AIManager::move(army);
+							n++;
+						}
+						
+					}
 				}
-
-
-				log("pos(%f,%f)", pos.x, pos.y);
-				return true;
-
+				/*s_armyVec.clear();*/
 			}
-		//}
-		
+			
+			
+
+			
+		}
 		return true;
 	};
 

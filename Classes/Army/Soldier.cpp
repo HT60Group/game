@@ -1,5 +1,5 @@
 #include "Soldier.h"
-#include "json/json.h"
+//#include "json/json.h"
 
 bool Soldier::init()
 {

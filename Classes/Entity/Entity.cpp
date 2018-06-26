@@ -72,7 +72,6 @@ Point Entity::getScenePosition()
 	    return tpos;
 	}
 
-
 }
 int Entity::getHp() {
 	return Hp;

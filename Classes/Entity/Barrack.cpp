@@ -20,16 +20,6 @@ void Barrack::showUI() {
 
 void Barrack::readJson()
 {
-	Json::Reader reader;
-	Json::Value root;
 
-	std::string data = FileUtils::getInstance()->getStringFromFile("StarCC.json");
 
-	if (reader.parse(data, root, false) == true)
-	{
-		Hp = root["Barrack"]["Hp"].asInt();
-		Costime = root["Barrack"]["Costime"].asInt();
-		CostMine = root["Barrack"]["CostMine"].asInt();
-		CostElec = root["Barrack"]["CostElec"].asInt();
-	}
 }

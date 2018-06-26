@@ -10,6 +10,7 @@
 #include"ui/cocosGUI.h"
 #include"editor-support/cocostudio/CCSGUIReader.h"
 #include <math.h>
+#include<list>
 USING_NS_CC_EXT;
 using namespace cocos2d::extension;
 using namespace cocos2d::ui;
@@ -46,7 +47,7 @@ public:
 	bool isInAtkRange(Entity* entity);
 	Entity* chooseAtkEntity();
 
-	std::vector<Point> way;
+	std::list<Point> way;
 protected:
 	Point nowPoint;                //相对于屏幕坐标
 	Vector<Entity*> EntityList;

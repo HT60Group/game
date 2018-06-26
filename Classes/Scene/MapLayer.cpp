@@ -132,7 +132,7 @@ bool MapLayer::isCollidable(Point pos)
 	}
 	return true;
 }
- Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
+Vec2 MapLayer::ConvertToMap(float x, float y,TMXTiledMap* map)
 {
 	int tilewidth = map->getTileSize().width;
 	int tileheight = map->getTileSize().height;//ÕýÈ·
@@ -167,7 +167,7 @@ bool MapLayer::isCollidable(Point pos)
 	return Vec2(m,n);
 }
 
-Vec2 MapLayer::ConvertToScene(int x, int y,TMXTiledMap* map)
+Vec2 MapLayer::ConvertToScene(float x, float y,TMXTiledMap* map)
 {
 	float tilewidth = map->getTileSize().width;
 	float tileheight = map->getTileSize().height;
@@ -186,3 +186,4 @@ Vec2 MapLayer::ConvertToScene(int x, int y,TMXTiledMap* map)
 }
 
 
+std::vector<std::vector<int> > MapLayer::_collidable;
