@@ -7,8 +7,6 @@
 class Producer :public Building
 {
 public:
-	Producer();
-	~Producer();
 	CREATE_FUNC(Producer);
 	virtual bool init();
 	virtual void showUI();

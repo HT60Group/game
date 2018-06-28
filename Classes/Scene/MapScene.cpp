@@ -4,7 +4,6 @@
 #include "Scene/TollgateDataLayer.h"
 #include "AIManager\BuildingManager.h"
 #include"AIManager.h"
-#include"SimpleAudioEngine.h"
 Scene* MapScene::createScene() {
 	log("Mapscene\n\n\n\n");
 
@@ -29,8 +28,6 @@ bool MapScene::init() {
 	
 	auto aimanager = AIManager::create();
 	this->addChild(aimanager);
-
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("REC002.mp3", true);
 	return true;
 }
 

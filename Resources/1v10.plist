@@ -61,7 +61,7 @@
 				<key>offsetY</key>
 				<real>7.5</real>
 			</dict>
-			<key>E:/cocostudio/EditorDefaultRes/GUI/selected01.png</key>
+			<key>D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected01.png</key>
 			<dict>
 				<key>width</key>
 				<integer>56</integer>
@@ -80,7 +80,7 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>E:/cocostudio/EditorDefaultRes/GUI/selected02.png</key>
+			<key>D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected02.png</key>
 			<dict>
 				<key>width</key>
 				<integer>56</integer>
@@ -99,25 +99,6 @@
 				<key>offsetY</key>
 				<real>0</real>
 			</dict>
-			<key>2 vs 2.png</key>
-			<dict>
-				<key>width</key>
-				<integer>833</integer>
-				<key>height</key>
-				<integer>182</integer>
-				<key>originalWidth</key>
-				<integer>882</integer>
-				<key>originalHeight</key>
-				<integer>223</integer>
-				<key>x</key>
-				<integer>528</integer>
-				<key>y</key>
-				<integer>650</integer>
-				<key>offsetX</key>
-				<real>-2.5</real>
-				<key>offsetY</key>
-				<real>0.5</real>
-			</dict>
 			<key>1 vs 1 vs 1.png</key>
 			<dict>
 				<key>width</key>
@@ -129,13 +110,32 @@
 				<key>originalHeight</key>
 				<integer>107</integer>
 				<key>x</key>
-				<integer>0</integer>
+				<integer>528</integer>
 				<key>y</key>
-				<integer>834</integer>
+				<integer>650</integer>
 				<key>offsetX</key>
 				<real>-10</real>
 				<key>offsetY</key>
 				<real>7.5</real>
+			</dict>
+			<key>2 vs 2.png</key>
+			<dict>
+				<key>width</key>
+				<integer>833</integer>
+				<key>height</key>
+				<integer>182</integer>
+				<key>originalWidth</key>
+				<integer>882</integer>
+				<key>originalHeight</key>
+				<integer>223</integer>
+				<key>x</key>
+				<integer>0</integer>
+				<key>y</key>
+				<integer>738</integer>
+				<key>offsetX</key>
+				<real>-2.5</real>
+				<key>offsetY</key>
+				<real>0.5</real>
 			</dict>
 		</dict>
 		<key>metadata</key>

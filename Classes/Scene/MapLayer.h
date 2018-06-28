@@ -26,7 +26,6 @@ public:
 
 	static Vec2 ConvertToMap(float x, float y, TMXTiledMap* map);
 	static Vec2 ConvertToScene(float x, float y, TMXTiledMap* map);
-	static int  map_kind;//xuantu
 private:
 	static std::vector<std::vector<int> > _collidable;//用于储存碰撞层的碰撞属性
 	Point _mapMoveSpeed = Point(0, 0);//初始速度为0，向量
@@ -36,5 +35,3 @@ private:
 
 };
 #endif
-
-

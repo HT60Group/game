@@ -4,6 +4,7 @@
 #include "OneVsOne.h"
 #include "OneVsOneVsOne.h"
 #include "TwoVsTwo.h"
+
 USING_NS_CC;
 Scene* ModeChoose::createScene() {
 	auto scene = Scene::create();
@@ -13,6 +14,7 @@ Scene* ModeChoose::createScene() {
 }
 bool ModeChoose::init() {
 	if (!Scene::init()) { return false; }
+
 
 	//Scene
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("Mode.ExportJson");

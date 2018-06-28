@@ -221,7 +221,7 @@ void MenuLayer::createProducer(Point tpos, bool not_enemy) {
 	Producer* producer = new Producer();
 	Building::createWithSpriteFrameName(producer, "Producer.png");     //此处需要图片——图片
 
-	TollgateDataLayer::addm_iGold += 50;
+	TollgateDataLayer::addm_iGold += 5;
 	TollgateDataLayer::m_iGold -= TollgateDataLayer::ProducerCostMine;
 
 	Point mypos;
@@ -285,7 +285,7 @@ void MenuLayer::createStope(Point tpos, bool not_enemy) {
 	Stope* stope= new Stope();
 	Building::createWithSpriteFrameName(stope, "Stope.png");     //此处需要图片——图片
 
-	TollgateDataLayer::addm_iElect += 50;
+	TollgateDataLayer::addm_iElect += 5;
 	TollgateDataLayer::m_iGold -= TollgateDataLayer::StopeCostMine;
 
 	Point mypos;
@@ -544,7 +544,7 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 	
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5);//每帧调用函数
 
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
@@ -588,7 +588,7 @@ void MenuLayer::createDog(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -625,7 +625,7 @@ void MenuLayer::createSniper(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -686,7 +686,7 @@ void MenuLayer::createScv(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -758,7 +758,7 @@ void MenuLayer::createTank(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }

@@ -10,7 +10,7 @@ USING_NS_CC_EXT;
 using namespace cocos2d::extension;
 using namespace cocos2d::ui;
 using namespace cocostudio;
-class  InputName : public cocos2d::Layer
+class  InputName : public cocos2d::Scene
 {
 public:
 	static cocos2d::Scene* createScene();
@@ -18,10 +18,10 @@ public:
 	virtual bool init();
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
-
+	void textFieldEvent(Ref *pSender, cocos2d::ui::TextField::EventType type);
+	std::string _playerName;
 	// implement the "static create()" method manually
 	CREATE_FUNC(InputName);
 };
 
 #endif
-

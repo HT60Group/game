@@ -7,8 +7,6 @@
 class Stope :public Building
 {
 public:
-	Stope();
-	~Stope();
 	CREATE_FUNC(Stope);
 	virtual bool init();
 	virtual void showUI();

@@ -5,6 +5,9 @@
 #include"cocos-ext.h"
 #include"ui/cocosGUI.h"
 #include"editor-support/cocostudio/CCSGUIReader.h"
+#include "leaf\API.h"
+#include "leaf\Client.h"
+#include "leaf\Server.h"
 
 USING_NS_CC_EXT;
 using namespace cocos2d::extension;
@@ -20,6 +23,8 @@ public:
 	void buttonTurnToCreateRoom(cocos2d::Ref* pSender);
 	void buttonTurnToJoinRoom(Ref* pSender);
 
+	//Server* _server;
+	//Client* _client;
 	// implement the "static create()" method manually
 	CREATE_FUNC(Room);
 };

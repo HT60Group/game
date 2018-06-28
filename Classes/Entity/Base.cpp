@@ -2,13 +2,9 @@
 
 
 Base::Base() {
-	Hp = 1500;
-	CostMine = 400;                  //花费的矿
-	CostElec = 0;                 //花费的电
-	Costime = 0;                  //花费的时间
-
+	Hp = 1000;
 	log("BaseHp=1000\n\n");
-	totalHp = 1500;
+	totalHp = 1000;
 }
 Base::~Base(){}
 

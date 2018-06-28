@@ -4,6 +4,8 @@
 #include"Scene/MapLayer.h"
 using namespace cocos2d;
 
+//static Animation* animation_dog ;
+
 std::list<cocos2d::Point> Findway(cocos2d::Point start, cocos2d::Point end, std::vector<std::vector<int>> &_maze);
 Animate* AIManager::animate;
 bool AIManager::init()
@@ -33,6 +35,7 @@ void AIManager::selectionController()
 {
 	auto listener = EventListenerTouchOneByOne::create();
 
+	
 	
 
 	listener->onTouchBegan = [&](Touch* touch, Event* event)
@@ -67,7 +70,7 @@ void AIManager::selectionController()
 
 
 	};
-
+   
 	
 	listener->onTouchEnded = [&](Touch* touch, Event* event)
 	{
@@ -84,26 +87,7 @@ void AIManager::selectionController()
 
 
 			//dog_animate
-			auto animation_dog = Animation::create();
-			for (int i = 1; i < 3; i++)
-			{
-				char nameSize[100] = { 0 };
-				sprintf(nameSize, "dog_%d.png", i);
-				animation_dog->addSpriteFrameWithFile(nameSize);
-			}
-			animation_dog->setDelayPerUnit(0.1f);
-			animation_dog->setLoops(-1);
-			animation_dog->setRestoreOriginalFrame(true);
-			AIManager::animate = Animate::create(animation_dog);
-
-
-
-
-
-
-
 			
-
 
 			for (auto army : m_armyVec)
 			{
@@ -112,12 +96,21 @@ void AIManager::selectionController()
 					&& ((pos_s.y - mousePos_began.y)*(pos_s.y - mousePos_ended.y) < 0))
 				{
 					//¿ÉÓÃ
-
+					
 
 					s_armyVec.push_back(army);
 					if ((army->kind) == 1)
 					{
-						army->runAction(animate->clone());
+					auto animation_dog = Animation::create();
+						animation_dog->addSpriteFrameWithFile("dog_1.png");
+						animation_dog->addSpriteFrameWithFile("dog_2.png");
+						
+						animation_dog->setDelayPerUnit(0.1f);
+						animation_dog->setLoops(-1);
+						animation_dog->setRestoreOriginalFrame(true);
+						AIManager::animate = Animate::create(animation_dog);
+
+						army->runAction(AIManager::animate->clone());
 					}
 
 				}

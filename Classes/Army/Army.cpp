@@ -134,10 +134,6 @@ Entity* Army::chooseAtkEntity() {
 	int soldiersum = AIManager::m_enemyArmyVec.size();
 	for (int i = 0; i < soldiersum; i++)
 	{
-		if (AIManager::m_enemyArmyVec[i]->getM_isDied())
-		{
-			continue;
-		}
 		if (isInAtkRange(AIManager::m_enemyArmyVec[i]))
 		{
 			return AIManager::m_enemyArmyVec[i];
