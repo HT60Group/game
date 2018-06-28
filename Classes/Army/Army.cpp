@@ -15,7 +15,7 @@ bool Army::init()
 	//ai = AIManager::createAIManager();
 	//this->addChild(ai);
 	showUI();
-	//readJson();
+	//readJson(); 
 	DPS = 1;
 	_numInVec = 0;
 	AttackDistance = 9;
@@ -93,17 +93,24 @@ Army* Army::createWithSpriteFrameName(Army* sprite, const char *filename)
 //
 bool Army::isInAtkRange(Entity* entity) {
 	//如果是空就直接返回false
-	if (entity == nullptr) { return false; }
+	if (entity == nullptr) { log("it is null!!!\n\n"); return false; }
+	if (entity->getM_isDied()) { log("it is died!!!\n\n"); return false; }
 
 	Point myPos = this->getScenePosition();
 	Point enemyPos = entity->getScenePosition();
 
+	myPos=MapLayer::ConvertToMap(myPos.x,myPos.y,MapLayer::map);
+	enemyPos = MapLayer::ConvertToMap(enemyPos.x, enemyPos.y, MapLayer::map);
+	log("myPos=%f,%f", myPos.x, myPos.y);
+	log("enemyPos=%f,%f", enemyPos.x, enemyPos.y);
 	int iDistance = (myPos.x - enemyPos.x)*(myPos.x - enemyPos.x);
 	iDistance += (myPos.y - enemyPos.y)*(myPos.y - enemyPos.y);
 
-	int range2 = AttackDistance*AttackDistance;
+	int range2 = 81;
+	log("%d", range2);
 	if (iDistance <= range2)
 	{
+		log("local\n\n\n\n\n");
 		return true;
 	}
 	else {
@@ -114,7 +121,12 @@ Entity* Army::chooseAtkEntity() {
 	int sum = BuildingManager::m_enemyBuildingVec.size();
 	for (int i = 0; i < sum; i++)
 	{
-		if (isInAtkRange(BuildingManager::m_enemyBuildingVec[i])) {
+		if (BuildingManager::m_enemyBuildingVec[i]->getM_isDied())
+		{
+			continue;
+		}
+		else if (isInAtkRange(BuildingManager::m_enemyBuildingVec[i])) {
+			log("emmmmmm\n\n\n\n\n");
 			return BuildingManager::m_enemyBuildingVec[i];
 		}
 	}
@@ -132,10 +144,10 @@ Entity* Army::chooseAtkEntity() {
 }
 
 void Army::Attack(Entity* entity) {
-	if (entity != nullptr)
+	if (entity != nullptr && entity->getHp()>=0)
 	{
-		log("Attack!!!\n\n\n");
-	    entity->hurtMe(DPS);
+		log("Attack!!!\nDPS=%d\n\n",DPS);
+	    entity->hurtMe(this->DPS);
 	}
 }
 

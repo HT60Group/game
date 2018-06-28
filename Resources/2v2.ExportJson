@@ -14,6 +14,7 @@
   ],
   "texturesPng": [
     "1v10.png",
+    "1v10.png",
     "1v10.png"
   ],
   "version": "1.4.0.1",
@@ -171,7 +172,7 @@
           "y": 160,
           "backGroundBox": null,
           "backGroundBoxData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected01.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected01.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -189,7 +190,7 @@
           },
           "frontCross": null,
           "frontCrossData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected02.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected02.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -243,7 +244,7 @@
           "y": 160,
           "backGroundBox": null,
           "backGroundBoxData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected01.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected01.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -261,7 +262,7 @@
           },
           "frontCross": null,
           "frontCrossData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected02.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected02.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -315,7 +316,7 @@
           "y": 160,
           "backGroundBox": null,
           "backGroundBoxData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected01.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected01.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -333,7 +334,7 @@
           },
           "frontCross": null,
           "frontCrossData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected02.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected02.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -387,7 +388,7 @@
           "y": 160,
           "backGroundBox": null,
           "backGroundBoxData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected01.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected01.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -405,7 +406,7 @@
           },
           "frontCross": null,
           "frontCrossData": {
-            "path": "E:/cocostudio/EditorDefaultRes/GUI/selected02.png",
+            "path": "D:/Program Files (x86)/CocoStudio/EditorDefaultRes/GUI/selected02.png",
             "plistFile": "",
             "resourceType": 1
           },
@@ -747,7 +748,7 @@
       "classname": "Panel",
       "name": "Panel_11",
       "ZOrder": 0,
-      "actiontag": -1,
+      "actiontag": 4,
       "anchorPointX": 0,
       "anchorPointY": 0,
       "classType": "CocoStudio.EngineAdapterWrap.CSPanel",

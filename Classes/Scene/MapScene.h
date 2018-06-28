@@ -10,6 +10,7 @@
 using namespace cocos2d;
 class MapLayer;
 class MenuLayer;
+class TollgateDataLayer;
 class MapScene :public Scene {
 public:
 	static Scene* createScene();
@@ -22,5 +23,6 @@ public:
 	/*TMXLayer * meta;*/
 	static MenuLayer* GetMenuLayer();
 	static MenuLayer* _menuLayer;
+	static TollgateDataLayer* dataLayer;
 };
 #endif

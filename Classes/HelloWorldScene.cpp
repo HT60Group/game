@@ -3,6 +3,7 @@
 #include "Scene/MusicSetting.h"
 #include "Scene/InputName.h"
 #include "Scene/MapScene.h"
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -34,15 +35,49 @@ bool HelloWorld::init()
 	log("button");
 	// button 
 	Button* START = (Button*)Helper::seekWidgetByName(UI, "START");
-	START->setTouchEnabled(true);
-	START->addTouchEventListener(CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
+	START->setTouchEnabled(false);
+	auto listenerStart = EventListenerTouchOneByOne::create();
+	listenerStart->onTouchBegan = [&](Touch *touch, Event *event)
+	{
+		auto target = static_cast<Sprite*>(event->getCurrentTarget());
+		Point pos = target->convertToNodeSpace(touch->getLocation());
+
+		Size s = target->getContentSize();
+		Rect rect = Rect(0, 0, s.width, s.height);
+		if (rect.containsPoint(pos))
+		{
+			return true;
+		}
+	};
+	listenerStart->onTouchMoved = [&](Touch *touch, Event *event)
+	{
+
+	};
+	listenerStart->onTouchEnded = [&](Touch *touch, Event *event)
+	{
+		//if (n == 0) {
+		log("button2");
+		menuCloseCallback(this);
+		//}
+
+	};
+	//START->addTouchEventListener(CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listenerStart, START);
+
 	Button* Setting = (Button*)Helper::seekWidgetByName(UI, "Setting");
 	Setting->setTouchEnabled(false);
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [&](Touch *touch, Event *event)
 	{
-		return true;
+		auto target = static_cast<Sprite*>(event->getCurrentTarget());
+	    Point pos = target->convertToNodeSpace(touch->getLocation());
+
+    	Size s = target->getContentSize();
+	    Rect rect = Rect(0, 0, s.width, s.height);
+		if (rect.containsPoint(pos))
+		{
+			return true;
+		}
 	};
 	listener->onTouchMoved = [&](Touch *touch, Event *event)
 	{
@@ -82,10 +117,8 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::buttonTurnToSetting(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
-	auto scene = MapScene::createScene();
+	auto scene = MusicSetting::createScene();
 	Director::getInstance()->replaceScene(scene);
-
-	n++;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	exit(0);

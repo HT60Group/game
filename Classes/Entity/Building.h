@@ -5,14 +5,7 @@
 #include "Entity/Entity.h"
 //#include "json/json.h"
 //#include "AIManager/AIManager.h"
-#include"cocos-ext.h"
-#include"ui/cocosGUI.h"
-#include"editor-support/cocostudio/CCSGUIReader.h"
 
-USING_NS_CC_EXT;
-using namespace cocos2d::extension;
-using namespace cocos2d::ui;
-using namespace cocostudio;
 using namespace cocos2d;
 
 
@@ -30,22 +23,15 @@ public:
 	//建造
 	static Building* createWithSpriteFrameName(Building* sprite, const char *filename);
 
-	//virtual void hurt(int x);
 	virtual bool isDeath();
-	//得到建筑相对地图坐标
-	//Point getScenePosition();
 
 	bool isBroken;             // 是否被摧毁
-	//Sprite* normal;            // 正常图片
 
 	Point getScenePosition();
 protected:
 	int index;                 // 内存中的数组下标
 	int id;                    // 编号
 	int BuildingID;            // 建筑编号ID
-	//virtual void ondied() override;
-	//virtual void onHurt(int iHurtValue) override;
-	LoadingBar* hpBar;         // 血条
 	Entity* target;
 };
 

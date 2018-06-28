@@ -3,8 +3,16 @@
 
 #include"cocos2d.h"
 //#include "json/json.h"
+#include"cocos-ext.h"
+#include"ui/cocosGUI.h"
+#include"editor-support/cocostudio/CCSGUIReader.h"
 
+USING_NS_CC_EXT;
+using namespace cocos2d::extension;
+using namespace cocos2d::ui;
+using namespace cocostudio;
 using namespace cocos2d;
+
 class Entity :public Sprite
 {
 public:
@@ -31,11 +39,14 @@ public:
 
 	Vec2 pos;
 	bool Belonging;             //true表示是自己的
+	int getHp();
+	bool getM_isDied();
 protected:
 	Sprite* m_sprite;  
 
 	int Hp;
 	int totalHp;
+	LoadingBar* hpBar;         // 血条
 	bool m_isDied;
 	int Costime;             //建筑花费的时间
 	int CostMine;            //建造花费的矿

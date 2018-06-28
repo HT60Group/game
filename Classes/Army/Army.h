@@ -10,6 +10,7 @@
 #include"ui/cocosGUI.h"
 #include"editor-support/cocostudio/CCSGUIReader.h"
 #include <math.h>
+#include<list>
 USING_NS_CC_EXT;
 using namespace cocos2d::extension;
 using namespace cocos2d::ui;
@@ -33,6 +34,7 @@ public:
 
 	void Attack(Entity* entity);
 	void autoAttack(float dt);
+	int kind;
 	//virtual void hurt(int x);
 	//virtual bool isDeath();  
 
@@ -46,6 +48,7 @@ public:
 	bool isInAtkRange(Entity* entity);
 	Entity* chooseAtkEntity();
 
+	std::list<Point> way;
 protected:
 	Point nowPoint;                //相对于屏幕坐标
 	Vector<Entity*> EntityList;
@@ -58,5 +61,6 @@ protected:
 	//int ViewDistance;              //视野
 	LoadingBar* hpBar;         // 血条
 	Entity* target;
+	
 };
 #endif

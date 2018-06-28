@@ -15,6 +15,7 @@
 #include "Army/Scv.h"
 #include "Army\Sniper.h"
 #include "Army\Tank.h"
+#include"TollgateDataLayer.h"
 
 bool MenuLayer::init()
 {
@@ -74,7 +75,7 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 	Rect rect = Rect(0, 0, s.width, s.height);
 	if (rect.containsPoint(pos))
 	{
-		log("%f", touch->getLocation().y);
+		log("begin%f", touch->getLocation().y);
 		if (touch->getLocation().y > 700 && touch->getLocation().y<800)
 		{
 			message = "barrack";
@@ -94,6 +95,15 @@ bool MenuLayer::onTouchBegan(Touch* touch, Event* event)
 }
 void MenuLayer::onTouchMoved(Touch* touch, Event* event)
 {  
+	//auto target = static_cast<Sprite*>(event->getCurrentTarget());
+	//Point pos = newsprite->convertToNodeSpace(touch->getLocation());
+
+	//Size s = newsprite->getContentSize();
+	//Rect rect = Rect(0, 0, s.width, s.height);
+	//if (rect.containsPoint(pos))
+	//{
+	//	newsprite->setPosition(newsprite->getPosition() + touch->getDelta());
+	//}
 }
 void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 {
@@ -116,6 +126,77 @@ void MenuLayer::onTouchEnded(Touch* touch, Event* event)
 	}
 }
 void MenuLayer::createBarrack(Point tpos, bool not_enemy) {
+	
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::BarrackCostMine)
+	{
+		return;
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::BarrackCostMine;
+		auto tmap = MapLayer::map;
+		auto _currentPos = tmap->getPosition();//地图的绝对坐标
+		Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
+		log("tpos2=(%f,%f)", tpos.x, tpos.y);
+		log("a(%f,%f)", a.x, a.y);
+		//create Barrack
+		if (a.x > 74 || a.x < 0 || a.y>74 || a.y < 0)
+		{
+			return;
+		}
+		for (int i = -2; i < 3; i++)
+		{
+			for (int j = -2; j < 3; j++)
+			{
+				if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+					log("collidable=%f,%f", a.x + i, a.y + j);
+					return;
+				}
+			}
+		}
+
+		Barrack* barrack = new Barrack();
+		Building::createWithSpriteFrameName(barrack, "Barracks.png");     //此处需要图片——图片
+		barrack->setZOrder(a.x + a.y);
+	/*	TollgateDataLayer::m_iGold -= Barrack::getInstance()->costMine();*/
+		Point mypos;
+		mypos.x = tpos.x - _currentPos.x;
+		mypos.y = tpos.y - _currentPos.y;
+
+		log("a.x+a.y=%f", a.x + a.y);
+		tmap->addChild(barrack, BUILDING_LAYEER_LVL);
+		barrack->setPosition(mypos);    //setPosition
+
+		barrack->showUI();
+
+		if (not_enemy)
+		{
+			buildingMgr->SetBarrackController(barrack);
+			//add m_buildingVec
+			BuildingManager::m_buildingVec.push_back(barrack);
+			barrack->_numInVec = BuildingManager::m_buildingVec.size() - 1;
+		}
+		else {
+			//add m_buildingVec
+			BuildingManager::m_enemyBuildingVec.push_back(barrack);
+			barrack->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
+			barrack->is_Enemy();
+		}
+
+		log("getScenePosition(%f,%f)", barrack->getScenePosition().x, barrack->getScenePosition().y);
+		for (int i = -2; i < 3; i++)
+		{
+			for (int j = -2; j < 3; j++)
+			{
+				static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x + i, a.y + j, 1);
+			}
+		}
+	}
+//}
+void MenuLayer::createProducer(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::ProducerCostMine)
+	{
+		return;
+	}
+
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -126,55 +207,22 @@ void MenuLayer::createBarrack(Point tpos, bool not_enemy) {
 	{
 		return;
 	}
-	
-	Barrack* barrack = new Barrack();
-	Building::createWithSpriteFrameName(barrack, "Barracks.png");     //此处需要图片——图片
-
-	Point mypos;
-	mypos.x=tpos.x - _currentPos.x;
-	mypos.y=tpos.y - _currentPos.y;
-
-	tmap->addChild(barrack, BUILDING_LAYEER_LVL);
-	barrack->setPosition(mypos);    //setPosition
-	barrack->showUI();
-
-	if (not_enemy)
-	{
-	    buildingMgr->SetBarrackController(barrack);
-		//add m_buildingVec
-		BuildingManager::m_buildingVec.push_back(barrack);
-		barrack->_numInVec = BuildingManager::m_buildingVec.size() - 1;
-	}
-	else {
-		//add m_buildingVec
-		BuildingManager::m_enemyBuildingVec.push_back(barrack);
-		barrack->_numInVec = BuildingManager::m_enemyBuildingVec.size() - 1;
-		barrack->is_Enemy();
-	}
-
-	log("getScenePosition(%f,%f)", barrack->getScenePosition().x, barrack->getScenePosition().y);
 	for (int i = -2; i < 3; i++)
 	{
 		for (int j = -2; j < 3; j++)
 		{
-			static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x+i, a.y+j, 1);
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
 		}
-	}
-}
-void MenuLayer::createProducer(Point tpos, bool not_enemy) {
-	auto tmap = MapLayer::map;
-	auto _currentPos = tmap->getPosition();//地图的绝对坐标
-	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
-	log("tpos2=(%f,%f)", tpos.x, tpos.y);
-	log("a(%f,%f)", a.x, a.y);
-	//create Barrack
-	if (a.x > 74 || a.x < 0 || a.y>74 || a.y < 0)
-	{
-		return;
 	}
 
 	Producer* producer = new Producer();
 	Building::createWithSpriteFrameName(producer, "Producer.png");     //此处需要图片——图片
+
+	TollgateDataLayer::addm_iGold += 5;
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::ProducerCostMine;
 
 	Point mypos;
 	mypos.x = tpos.x - _currentPos.x;
@@ -207,6 +255,11 @@ void MenuLayer::createProducer(Point tpos, bool not_enemy) {
 											/*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createStope(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::StopeCostMine)
+	{
+		return;
+	}
+	
 	//create Stope
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -218,9 +271,22 @@ void MenuLayer::createStope(Point tpos, bool not_enemy) {
 	{
 		return;
 	}
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
+	}
 
 	Stope* stope= new Stope();
 	Building::createWithSpriteFrameName(stope, "Stope.png");     //此处需要图片——图片
+
+	TollgateDataLayer::addm_iElect += 5;
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::StopeCostMine;
 
 	Point mypos;
 	mypos.x = tpos.x - _currentPos.x;
@@ -228,6 +294,7 @@ void MenuLayer::createStope(Point tpos, bool not_enemy) {
 
 	tmap->addChild(stope, BUILDING_LAYEER_LVL);
 	stope->setPosition(mypos);    //setPosition
+	
 	stope->showUI();
 
 	if (not_enemy)
@@ -250,9 +317,16 @@ void MenuLayer::createStope(Point tpos, bool not_enemy) {
 			static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x + i, a.y + j, 1);
 		}
 	}
+	
 										   /*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createWarFactory(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::WarFactoryCostMine
+		||TollgateDataLayer::m_iElec<TollgateDataLayer::WarFactoryCostMine)
+	{
+		return;
+	}
+	
 	//create WarFactory
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -264,6 +338,18 @@ void MenuLayer::createWarFactory(Point tpos, bool not_enemy) {
 	{
 		return;
 	}
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (static_cast<MapScene*>(this->getParent())->_mapLayer->getCollidable(a.x + i, a.y + j) == 1) {
+				log("collidable=%f,%f", a.x + i, a.y + j);
+				return;
+			}
+		}
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::WarFactoryCostMine;
+	TollgateDataLayer::m_iElec -= TollgateDataLayer::WarFactoryCostElec;
 
 	WarFactory* warf = new WarFactory();
 	Building::createWithSpriteFrameName(warf, "WarFactory.png");     //此处需要图片——图片
@@ -275,7 +361,7 @@ void MenuLayer::createWarFactory(Point tpos, bool not_enemy) {
 	tmap->addChild(warf, BUILDING_LAYEER_LVL);
 	warf->setPosition(mypos);    //setPosition
 	warf->showUI();
-
+	
 	if (not_enemy)
 	{
 		buildingMgr->SetWarFactoryController(warf);
@@ -303,6 +389,13 @@ void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x + i, a.y + j, 1);
+		}
+	}
 	log("tpos2=(%f,%f)", tpos.x, tpos.y);
 	log("a(%f,%f)", a.x, a.y);
 	//create Barrack
@@ -322,7 +415,6 @@ void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	base->setPosition(mypos);    //setPosition
 	base->showUI();
 
-
 	if (not_enemy)
 	{
 		buildingMgr->SetBaseController(base);
@@ -340,6 +432,7 @@ void MenuLayer::createBase(Point tpos, bool not_enemy) {
 	log("createBase");
 	//add m_buildingVec
 	BuildingManager::m_buildingVec.push_back(base);
+
 	for (int i = -2; i < 3; i++)
 	{
 		for (int j = -2; j < 3; j++)
@@ -414,13 +507,21 @@ void MenuLayer::CreateBarrackLayer(Building* building)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), sniper);
 }
 void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
+
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::SoldierCostMine)
+	{
+		return;
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::SoldierCostMine;
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 	//Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
 
 	Soldier* soldier_1 = new Soldier();
+
 	Army::createWithSpriteFrameName(soldier_1, "ALLArmy/soldier_1.png");     //此处需要图片——图片
 
+	
 	//Point mypos;
 	//mypos.x = tpos.x - _currentPos.x;
 	//mypos.y = tpos.y - _currentPos.y;
@@ -428,6 +529,7 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 	tmap->addChild(soldier_1, ARMY_LAYEER_LVL);
 	soldier_1->setPosition(tpos);    //setPosition
 	soldier_1->showUI();
+	//Point mmmpos = soldier_1->getScenePosition();
 
 	if (not_enemy)
 	{
@@ -442,7 +544,7 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 	
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5);//每帧调用函数
 
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
@@ -453,6 +555,11 @@ void MenuLayer::createSoldier(Point tpos, bool not_enemy) {
 //}
 
 void MenuLayer::createDog(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::DogCostMine)
+	{
+		return;
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::DogCostMine;
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -481,11 +588,16 @@ void MenuLayer::createDog(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
 void MenuLayer::createSniper(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::SniperCostMine)
+	{
+		return;
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::SniperCostMine;
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
 										   //Vec2 a = MapLayer::ConvertToMap(tpos.x, tpos.y, tmap);
@@ -513,7 +625,7 @@ void MenuLayer::createSniper(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -574,7 +686,7 @@ void MenuLayer::createScv(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
@@ -613,6 +725,11 @@ void MenuLayer::CreateWarFactoryLayer(Building* building)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, tank);
 }
 void MenuLayer::createTank(Point tpos, bool not_enemy) {
+	if (TollgateDataLayer::m_iGold<TollgateDataLayer::TankCostMine)
+	{
+		return;
+	}
+	TollgateDataLayer::m_iGold -= TollgateDataLayer::TankCostMine;
 	log("using tank");
 	auto tmap = MapLayer::map;
 	auto _currentPos = tmap->getPosition();//地图的绝对坐标
@@ -641,7 +758,7 @@ void MenuLayer::createTank(Point tpos, bool not_enemy) {
 		soldier_1->is_Enemy();
 	}
 
-	soldier_1->schedule(schedule_selector(Army::autoAttack));//每帧调用函数
+	soldier_1->schedule(schedule_selector(Army::autoAttack),0.5f);//每帧调用函数
 	//static_cast<MapScene*>(this->getParent())->_mapLayer->setcollidable(a.x, a.y, 1);
 	/*m_BuildingList.pushBack(barrack);*/
 }
