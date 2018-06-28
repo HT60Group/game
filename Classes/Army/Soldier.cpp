@@ -1,6 +1,12 @@
 #include "Soldier.h"
 //#include "json/json.h"
 
+Soldier::Soldier() {
+	readJson();
+}
+Soldier::~Soldier() {
+
+}
 bool Soldier::init()
 {
 	return true;
@@ -10,7 +16,6 @@ void Soldier::showUI() {
 	//Hp = 1;
 	//totalHp = 1;
 	//DPS = 1;
-	readJson();
 	auto UI = cocostudio::GUIReader::getInstance()->widgetFromJsonFile("hpBar_1.ExportJson");
 	this->addChild(UI);
 	Size size = this->getContentSize();
@@ -30,4 +35,5 @@ void Soldier::readJson()
 	CostElec = 0;                 //花费的电
 	Costime =25;                  //花费的时间
 	log("Hp=%d\nAttackDistance=%d\nCostMine=%d", Hp, AttackDistance, CostMine);
+	kind = 0;
 }

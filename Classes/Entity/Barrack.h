@@ -9,15 +9,14 @@
 class Barrack :public Building
 {
 public:
+	Barrack();
+	~Barrack();
 	CREATE_FUNC(Barrack);
 	virtual bool init();
 	virtual void showUI();
-	void readJson();
+	static Barrack* getInstance();
+	
 
-protected:
-	void CreateSoldier();             //²úÉúsoldiers
-	void CreateSniper();              //Sniper
-	void CreateDog();                 //dog
 };
 
 #endif

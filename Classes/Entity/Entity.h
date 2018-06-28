@@ -41,6 +41,8 @@ public:
 	bool Belonging;             //true表示是自己的
 	int getHp();
 	bool getM_isDied();
+	
+
 protected:
 	Sprite* m_sprite;  
 

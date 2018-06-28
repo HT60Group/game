@@ -7,7 +7,8 @@ Dog::Dog() {
 	DPS = 8;                       //伤害
 	CostMine = 45;                  //花费的矿
 	CostElec = 0;                 //花费的电
-	Costime = 25;                  //花费的时间
+	Costime = 25;   //花费的时间
+	kind = 1;
 }
 Dog::~Dog()
 {

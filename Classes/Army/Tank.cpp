@@ -1,4 +1,17 @@
 #include "Tank.h"
+Tank::Tank() {
+	Hp = 150;
+	MovingSpeed = 2.25;               //移动速度
+	AttackDistance = 7;            //攻击距离
+	DPS = 25;                       //伤害
+	CostMine = 150;                  //花费的矿
+	CostElec = 150;                 //花费的电
+	Costime = 4;                  //花费的时间
+	kind = 2;
+}
+Tank::~Tank() {
+
+}
 
 bool Tank::init()
 {

@@ -1,5 +1,15 @@
 #include "Stope.h"
 
+Stope::Stope() {
+	Hp = 600;
+	CostMine = 100;                  //花费的矿
+	CostElec = 0;                 //花费的电
+	Costime = 3;                  //花费的时间
+}
+Stope::~Stope()
+{
+
+}
 bool Stope::init()
 {
 

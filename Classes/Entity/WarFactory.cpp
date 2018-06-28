@@ -1,5 +1,14 @@
 #include "WarFactory.h"
+WarFactory::WarFactory() {
+	Hp = 1250;
+	CostMine = 150;                  //花费的矿
+	CostElec = 100;                 //花费的电
+	Costime = 3;                  //花费的时间
+}
+WarFactory::~WarFactory()
+{
 
+}
 bool WarFactory::init()
 {
 	//readJson();

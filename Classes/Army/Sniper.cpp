@@ -1,5 +1,19 @@
 #include "Sniper.h"
 
+Sniper::Sniper() {
+	Hp = 75;
+	MovingSpeed = 2.25;               //移动速度
+	AttackDistance = 9;            //攻击距离
+	DPS = 10;                       //伤害
+	CostMine = 200;                  //花费的矿
+	CostElec = 100;                 //花费的电
+	Costime = 40;                  //花费的时间
+	kind = 3;
+}
+Sniper::~Sniper() {
+
+}
+
 bool Sniper::init()
 {
 	return true;

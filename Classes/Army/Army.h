@@ -34,6 +34,7 @@ public:
 
 	void Attack(Entity* entity);
 	void autoAttack(float dt);
+	int kind;
 	//virtual void hurt(int x);
 	//virtual bool isDeath();  
 
@@ -60,5 +61,6 @@ protected:
 	//int ViewDistance;              //ÊÓÒ°
 	LoadingBar* hpBar;         // ÑªÌõ
 	Entity* target;
+	
 };
 #endif

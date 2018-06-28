@@ -1,9 +1,16 @@
 #include "Barrack.h"
-#include "json/json.h"
 
+Barrack::Barrack() {
+	Hp = 1000;
+	CostMine = 150;                  //花费的矿
+	CostElec = 0;                 //花费的电
+	Costime = 6;                  //花费的时间
+}
+Barrack::~Barrack() {
+
+}
 bool Barrack::init()
 {
-	readJson();
 
 	return true;
 }
@@ -16,10 +23,4 @@ void Barrack::showUI() {
 	hpBar = (LoadingBar*)Helper::seekWidgetByName(UI, "HpBar");
 	hpBar->setPercent(100);
 	totalHp = Hp;
-}
-
-void Barrack::readJson()
-{
-
-
 }

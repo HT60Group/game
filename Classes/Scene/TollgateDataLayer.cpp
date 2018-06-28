@@ -4,6 +4,19 @@ TollgateDataLayer::TollgateDataLayer() {
 	m_iGold = 100;
 	m_iElec = 0;
 	m_iPop = 0;
+	BarrackCostMine = 150;
+	ProducerCostMine = 100;
+	StopeCostMine = 100;
+	WarFactoryCostMine = 150;
+	WarFactoryCostElec = 100;
+	SoldierCostMine = 50;
+	DogCostMine = 45;
+	SniperCostMine = 200;
+	SniperCostElec = 100;
+	TankCostMine = 150;
+	TankCostElec = 150;
+	addm_iGold = 0;
+	addm_iElect = 0;
 }
 TollgateDataLayer::~TollgateDataLayer() {
 	NotificationCenter::getInstance()->removeAllObservers(this);
@@ -23,33 +36,33 @@ bool TollgateDataLayer::init() {
 
 
 	m_GoldLab->setText(StringUtils::toString(m_iGold));
+	this->schedule(schedule_selector(TollgateDataLayer::Refresh),1.0f);//每帧调用函数
 
-	NotificationCenter::getInstance()->addObserver(this,
-		callfuncO_selector(TollgateDataLayer::recvRefreshGoldNum),
-		"GoldNumChange",
-		NULL);
-	NotificationCenter::getInstance()->addObserver(this,
-		callfuncO_selector(TollgateDataLayer::recvRefreshElecNum),
-		"ElecNumChange",
-		NULL);
-	NotificationCenter::getInstance()->addObserver(this,
-		callfuncO_selector(TollgateDataLayer::recvRefreshPopNum),
-		"PopNumChange",
-		NULL);
 	return true;
 }
-void TollgateDataLayer::recvRefreshGoldNum(Ref* pData) {
-	int iAltValue = (int)pData;
-	m_iGold += iAltValue;
+void TollgateDataLayer::Refresh(float dt)
+{
+	
+	    m_iGold += addm_iGold;
+		m_iElec += addm_iElect;
+
 	m_GoldLab->setText(StringUtils::toString(m_iGold));
-}
-void TollgateDataLayer::recvRefreshElecNum(Ref* pData) {
-	int iAltValue = (int)pData;
-	m_iElec += iAltValue;
 	m_ElecLab->setText(StringUtils::toString(m_iElec));
 }
-void TollgateDataLayer::recvRefreshPopNum(Ref* pData) {
-	int iAltValue = (int)pData;
-	m_iPop += iAltValue;
-	m_PopLab->setText(StringUtils::toString(m_iPop));
-}
+int TollgateDataLayer::m_iGold;
+int TollgateDataLayer::m_iElec;
+int TollgateDataLayer::m_iPop;
+int TollgateDataLayer::BarrackCostMine;
+int TollgateDataLayer::ProducerCostMine;
+int TollgateDataLayer::StopeCostMine;
+int TollgateDataLayer::WarFactoryCostMine;
+int TollgateDataLayer::WarFactoryCostElec;
+
+int TollgateDataLayer::SoldierCostMine;
+int TollgateDataLayer::DogCostMine;
+int TollgateDataLayer::SniperCostMine;
+int TollgateDataLayer::SniperCostElec;
+int TollgateDataLayer::TankCostMine;
+int TollgateDataLayer::TankCostElec;
+int TollgateDataLayer::addm_iGold;
+int TollgateDataLayer::addm_iElect;

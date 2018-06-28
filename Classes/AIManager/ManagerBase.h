@@ -16,13 +16,7 @@ public:
 	virtual bool init();
 	CREATE_FUNC(ManagerBase);
 
-	// 获取目标
-	Entity* getTarget(Vec2 pos);    // pos点是空地，还是建筑
-	Entity* getTargetEnemy(Vec2 pos);
-	Entity* getTargetFriend(Vec2 pos, int range);
-	Vec2 getNextPos(Vec2 src, Vec2 des, bool isHero);
 
-	bool isWithinShootRange(Vec2 src, Vec2 des, int range);
 
 	void gameOver(int state);
 

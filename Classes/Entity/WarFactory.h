@@ -7,6 +7,8 @@
 class WarFactory :public Building
 {
 public:
+	WarFactory();
+	~WarFactory();
 	CREATE_FUNC(WarFactory);
 	virtual bool init();
 	virtual void showUI();

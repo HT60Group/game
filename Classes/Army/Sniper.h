@@ -7,6 +7,8 @@ using namespace cocos2d;
 class Sniper :public Army
 {
 public:
+	Sniper();
+	~Sniper();
 	CREATE_FUNC(Sniper);
 	virtual bool init();
 	virtual void showUI();

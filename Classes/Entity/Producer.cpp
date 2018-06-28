@@ -1,5 +1,15 @@
 #include "Producer.h"
 
+Producer::Producer() {
+	Hp = 500;
+	CostMine = 125;                  //花费的矿
+	CostElec = 0;                 //花费的电
+	Costime = 3;                  //花费的时间
+}
+Producer::~Producer()
+{
+
+}
 bool Producer::init()
 {
 	//readJson();
